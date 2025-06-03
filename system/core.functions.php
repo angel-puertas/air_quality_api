@@ -9,4 +9,6 @@ function autoloadUtil($className) {
 }
 
 spl_autoload_register('autoloadUtil');
+
+//is this even correct? Check how similar core.functions.php looks like. For now I'll leave as it is 
 ?>
