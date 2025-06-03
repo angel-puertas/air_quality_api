@@ -1,6 +1,7 @@
 <?php
 abstract class AbstractPage {
     protected $data = [];
+    public $templateName = '';
 
     public function __construct() {
         $this->execute();
@@ -12,5 +13,8 @@ abstract class AbstractPage {
         $data = $this->data;
         include_once('system/view/' . $template . '.tpl.php');
     }
+
+    
+    abstract public function execute();
 }
 ?>
