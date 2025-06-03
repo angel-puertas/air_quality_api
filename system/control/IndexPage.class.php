@@ -3,7 +3,7 @@ class IndexPage extends AbstractPage {
     public $templateName = 'index';
 
     public function execute() {
-        $resoruces = [
+        $resources = [
             1 => [
                 'url' => 'Index',
                 'method' => 'GET',

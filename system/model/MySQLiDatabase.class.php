@@ -23,7 +23,7 @@ class MySQLiDatabase {
         return $this->MySQLi->query($query);
     }
 
-    public function fetchARray($result = null) {
+    public function fetchArray($result = null) {
         return $result->fetch_array();
     }
 }
