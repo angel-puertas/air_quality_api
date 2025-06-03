@@ -20,5 +20,13 @@ class AppCore {
     public static final function getDB() {
         return self::$dbObj;
     }
+
+    public static function handleException($e) {
+        echo "<h2>Uncaught Exception:</h2>";
+        echo "<b>Message:</b> " . $e->getMessage() . "<br>";
+        echo "<b>File:</b> " . $e->getFile() . "<br>";
+        echo "<b>Line:</b> " . $e->getLine() . "<br>";
+        echo "<b>Stack trace:</b><pre>" . $e->getTraceAsString() . "</pre>";
+    }
 }
 ?>
