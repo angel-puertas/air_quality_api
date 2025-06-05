@@ -17,6 +17,10 @@ class MySQLiDatabase {
 
     protected function connect() {
         $this->MySQLi = new MySQLi($this->host, $this->user, $this->password, $this->database);
+        if ($this->MySQLi->connect_error) //just in case
+        {
+            throw new Exception("MySQLi connection failed: " . $this->MySQLi->connect_error);
+        }
     }
 
     public function sendQuery($query) {
@@ -46,14 +50,14 @@ class MySQLiDatabase {
         $this->sendQuery("
             CREATE TABLE IF NOT EXISTS stations (
                 id INT AUTO_INCREMENT PRIMARY KEY,
-                name VARCHAR(255) NOT NULL,
+                name VARCHAR(255) NOT NULL
             )
         ");
     
         $this->sendQuery("
             CREATE TABLE IF NOT EXISTS pollutants (
                 id int auto_increment primary key,
-                name VARCHAR(255) not null,
+                name VARCHAR(255) not null
             )
         ");
     
@@ -62,7 +66,7 @@ class MySQLiDatabase {
                 id INT AUTO_INCREMENT primary key,
                 station_id int not null,
                 pollutant_id int not null,
-                value VARCHAR NOT NULL,
+                value VARCHAR(255) NOT NULL,
                 unit VARCHAR(10) NOT NULL,
                 time VARCHAR(13) NOT NULL,
                 foreign key (station_id) REFERENCES stations(id),

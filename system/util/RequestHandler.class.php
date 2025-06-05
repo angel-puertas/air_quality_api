@@ -2,7 +2,8 @@
 class RequestHandler {
     public function __construct($className) {
         $className = $className . 'Page';
-        require_once('controller/' . $className . '.class.php');
+        require_once("system/control/{$className}.class.php"); //here was a wrong path
+        new $className;
     }
 
     public static function handle() {
