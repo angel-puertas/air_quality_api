@@ -6,7 +6,7 @@ class PollutantDeletePage extends AbstractPage
 {
     public function execute() 
     {
-        //$this->requireAuth();
+        $this->requireAuth();
         $db = AppCore::getDB();
         $model = new Pollutant($db);
         $id = $_GET['id'] ?? null;

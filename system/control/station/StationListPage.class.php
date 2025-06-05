@@ -6,6 +6,7 @@ class StationListPage extends AbstractPage
 {
     public function execute() 
     {
+        echo "StationListPage reached!";
         //$this->requireAuth();
         $db = AppCore::getDB();
         $model = new Station($db);

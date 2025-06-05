@@ -5,8 +5,8 @@ abstract class AbstractPage {
 
     public function __construct() 
     {
-        $this->requireAuth(); // theoretically, we can call this in child classes, 
-        // but since limitation for ALL crud operations is the same, we can call it here
+        //$this->requireAuth(); 
+        // this cannot be called here because it will block the login and register page
         $this->execute();
         $this->show();
     }

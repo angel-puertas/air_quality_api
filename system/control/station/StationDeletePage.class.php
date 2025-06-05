@@ -6,7 +6,7 @@ class StationDeletePage extends AbstractPage
 {
     public function execute() 
     {
-        //$this->requireAuth();
+        $this->requireAuth();
         $db = AppCore::getDB();
         $model = new Station($db);
         $id = $_GET['id'] ?? null;

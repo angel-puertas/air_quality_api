@@ -6,7 +6,7 @@ class StationUpdatePage extends AbstractPage
 {
     public function execute() 
     {
-        //$this->requireAuth();
+        $this->requireAuth();
         $db = AppCore::getDB();
         $model = new Station($db);
         $input = json_decode(file_get_contents("php://input"), true);
