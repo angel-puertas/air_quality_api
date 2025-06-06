@@ -1,14 +1,14 @@
 <?php
-require_once(__DIR__ . '/../AbstractPage.class.php');
-require_once('system/model/Station.class.php');
+require_once(__DIR__ . '/AbstractPage.class.php');
+require_once('system/model/Pollutant.class.php');
 
-class StationDeletePage extends AbstractPage 
+class PollutantDeletePage extends AbstractPage 
 {
     public function execute() 
     {
         $this->requireAuth();
         $db = AppCore::getDB();
-        $model = new Station($db);
+        $model = new Pollutant($db);
         $id = $_GET['id'] ?? null;
         $ok = $model->delete($id);
         $this->data = ['success' => $ok];

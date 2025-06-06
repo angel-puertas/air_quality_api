@@ -1,4 +1,5 @@
 <?php
+
 class MySQLiDatabase {
     public $MySQLi;
     protected $host;

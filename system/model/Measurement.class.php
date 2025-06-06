@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . '/AbstractModel.class.php');
 class Measurement extends AbstractModel {
 
     public function create($station_id, $pollutant_id, $value, $unit, $time) 

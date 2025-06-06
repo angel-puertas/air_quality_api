@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . '/../AbstractPage.class.php');
+require_once(__DIR__ . '/AbstractPage.class.php');
 require_once('system/model/Measurement.class.php');
 
 class MeasurementListPage extends AbstractPage 

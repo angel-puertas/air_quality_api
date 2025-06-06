@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . '/AbstractModel.class.php');
 class Station extends AbstractModel {
 
     public function create($name) 

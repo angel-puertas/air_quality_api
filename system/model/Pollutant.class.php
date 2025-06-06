@@ -1,5 +1,6 @@
 
 <?php
+require_once(__DIR__ . '/AbstractModel.class.php');
 class Pollutant extends AbstractModel 
 {
 

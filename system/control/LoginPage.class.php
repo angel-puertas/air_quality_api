@@ -5,19 +5,19 @@ require_once('system/model/User.class.php');
 class LoginPage extends AbstractPage 
 {
     public function execute() {
-        // Only allow POST requests
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') 
+        {
             http_response_code(405);
             $this->data = ['error' => 'Method Not Allowed'];
             return;
         }
 
-        // Get POSTed JSON data
         $input = json_decode(file_get_contents("php://input"), true);
         $username = $input['username'] ?? '';
         $password = $input['password'] ?? '';
 
-        if (!$username || !$password) {
+        if (!$username || !$password) 
+        {
             http_response_code(400);
             $this->data = ['error' => 'Username and password are required'];
             return;
@@ -27,7 +27,8 @@ class LoginPage extends AbstractPage
         $userModel = new User($db);
         $user = $userModel->getByUsername($username);
 
-        if (!$user || !password_verify($password, $user['password'])) {
+        if (!$user || !password_verify($password, $user['password'])) 
+        {
             http_response_code(401);
             $this->data = ['error' => 'Invalid credentials'];
             return;
