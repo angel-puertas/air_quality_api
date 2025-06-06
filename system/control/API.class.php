@@ -1,6 +1,7 @@
 <?php
 class API extends AbstractPage {
-    public function execute() {
+    public function execute() 
+    {
         $response = $_GET;
 
         $base = $response['base'];
