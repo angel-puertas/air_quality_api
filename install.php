@@ -28,6 +28,7 @@ try {
     echo "<h2>Database tables created (or already exist).</h2>";
 
     // Insert initial stations (for now it's enough to have just a few)
+    // in future I will add all stations from the api 
     $stations = 
     [
         307 => "Dubrovnik",
