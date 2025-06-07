@@ -91,7 +91,7 @@ class ApiPage extends AbstractPage
         foreach ($data as $item) 
         {
             $value = $item['vrijednost'] ?? null;
-            $unit = $item['mjernajedinica'] ?? '';
+            $unit = $item['mjernaJedinica'] ?? '';
             $time = $item['vrijeme'] ?? '';
             if ($value !== null && $time !== '') 
             {

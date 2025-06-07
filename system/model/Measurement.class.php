@@ -2,7 +2,7 @@
 require_once(__DIR__ . '/AbstractModel.class.php');
 class Measurement extends AbstractModel {
 
-    public function create($station_id, $pollutant_id, $value, $unit, $time) 
+    public function create($station_id, $pollutant_id, $value, $unit, $time) // why no unit?? 
     {
         $station_id = (int)$station_id;
         $pollutant_id = (int)$pollutant_id;
