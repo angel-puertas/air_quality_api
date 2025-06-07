@@ -29,18 +29,66 @@ try {
 
     // Insert initial stations (for now it's enough to have just a few)
     // in future I will add all stations from the api 
-    $stations = 
-    [
-        307 => "Dubrovnik",
-        308 => "Karepovac",
-        295 => "Kopacki rit",
-        161 => "Kutina",
-        269 => "Plitvicka jezera",
-        168 => "Split-1",
+    $stations = [
+        14 => "Zajci",
+        20 => "Čambarelići",
+        37 => "Zoljan",
+        38 => "Vrhovec",
+        40 => "Koromačno",
+        41 => "Ksaverska cesta",
+        101 => "Đorđićeva ulica (Stanica za hitnu pomoć)",
+        102 => "Pešćenica",
+        121 => "Velika Gorica",
         127 => "Umag",
-        121 => "Velika gorica",
-        155 => "Zagreb-1"
+        155 => "ZAGREB-1",
+        156 => "ZAGREB-2",
+        157 => "ZAGREB-3",
+        159 => "RIJEKA-2",
+        160 => "OSIJEK-1",
+        161 => "KUTINA-1",
+        162 => "SISAK-1",
+        165 => "SLAVONSKI BROD-1",
+        168 => "Split-1",
+        173 => "AMS1 Kaštel Sućurac",
+        179 => "AMS2 Sveti Kajo",
+        180 => "Ripenda",
+        189 => "Sv. Katarina",
+        191 => "Klavar",
+        215 => "Kostrena - Martinšćica",
+        221 => "Urinj",
+        224 => "Paveki",
+        232 => "Viškovo - Marišćina",
+        235 => "Viškovo - Viševac",
+        241 => "Opatija - Gorovo",
+        243 => "Krasica",
+        245 => "Krešimirova ul.",
+        246 => "Vrh Martinšćice",
+        255 => "KOPAČKI RIT",
+        256 => "DESINIĆ",
+        257 => "PLITVIČKA JEZERA",
+        258 => "PARG",
+        259 => "VIŠNJAN",
+        260 => "VELA STRAŽA (Dugi otok)",
+        261 => "POLAČA (Ravni kotari)",
+        262 => "HUM (otok Vis)",
+        263 => "OPUZEN (Delta Neretve)",
+        269 => "Plitvička jezera",
+        274 => "Jakuševec",
+        275 => "SLAVONSKI BROD-2",
+        276 => "Mlaka",
+        277 => "VARAŽDIN-1",
+        278 => "KARLOVAC-1",
+        279 => "Međunarodna zračna luka Zagreb",
+        280 => "Mirogojska cesta",
+        284 => "Zračna luka Dubrovnik",
+        285 => "AMP Kaštijun",
+        286 => "PULA FIŽELA",
+        295 => "Kopacki rit",
+        300 => "OSIJEK - PPI PM2,5",
+        307 => "Dubrovnik",
+        308 => "Karepovac"
     ];
+    
     foreach ($stations as $id => $name) 
     {
         $nameEscaped = $db->escape($name);
@@ -48,13 +96,15 @@ try {
     }
 
     // Insert initial pollutants
+    // there are literally hundreds of pollutants, but for now we will just insert a few common ones
+    // in future I will add all pollutants from the api
     $pollutants = 
     [
-        1 => "H₂S Sumporovodik",
-        2 => "NH₃ Amonijak",
-        3 => "NO₂ Dušikov dioksid",
-        4 => "PM₁₀ Lebdeće čestice",
-        5 => "PM₂.₅ Lebdeće čestice",
+        1 => "NO₂ - dušikov dioksid",
+        2 => "SO₂ - sumporov dioksid",
+        3 => "CO - ugljikov monoksid",
+        4 => "H₂S - sumporovodik",
+        5 => "PM₁₀ - lebdeće čestice",
     ];
     foreach ($pollutants as $id => $name) 
     {

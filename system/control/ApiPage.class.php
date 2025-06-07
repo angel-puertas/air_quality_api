@@ -1,5 +1,8 @@
 <?php
 require_once(__DIR__ . '/AbstractPage.class.php');
+require_once('system/model/Measurement.class.php');
+require_once('system/AppCore.class.php');
+
 
 class ApiPage extends AbstractPage 
 {
@@ -75,7 +78,29 @@ class ApiPage extends AbstractPage
         }
 
         
-        echo $response;
+        $data = json_decode($response, true);
+        if (!is_array($data)) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Invalid data format from external API.']);
+            exit;
+        }
+
+        $db = \AppCore::getDB();
+        $measurementModel = new \Measurement($db);
+
+        foreach ($data as $item) 
+        {
+            $value = $item['vrijednost'] ?? null;
+            $unit = $item['mjernajedinica'] ?? '';
+            $time = $item['vrijeme'] ?? '';
+            if ($value !== null && $time !== '') 
+            {
+                $measurementModel->create((int)$station, (int)$pollutant, $value, $unit, $time);
+            }
+        }
+
+        $measurements = $measurementModel->getByStationAndPollutant((int)$station, (int)$pollutant);
+        echo json_encode($measurements);
         exit;
     }
 }
