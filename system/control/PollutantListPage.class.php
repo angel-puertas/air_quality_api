@@ -8,7 +8,7 @@ class PollutantListPage extends AbstractPage
     {
         $db = AppCore::getDB();
         $model = new Pollutant($db);
-        $this->data = $model->getAll();
+        $this->data = ['stations' => $model->getAll()];
     }
 }
 ?>
