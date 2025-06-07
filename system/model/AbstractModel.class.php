@@ -2,10 +2,10 @@
 abstract class AbstractModel 
 {
     protected $db;
-    public function __construct($db) 
+    public function __construct() 
     {
-        $this->db = $db;
+        require_once('system/AppCore.class.php');
+        $this->db = AppCore::getDB();
     }
 }
-//
 ?>

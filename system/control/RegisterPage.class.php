@@ -22,8 +22,7 @@ class RegisterPage extends AbstractPage
             return;
         }
 
-        $db = AppCore::getDB();
-        $userModel = new User($db);
+        $userModel = new User();
 
         // Check if user already exists
         if ($userModel->getByUsername($username)) {

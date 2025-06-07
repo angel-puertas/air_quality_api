@@ -4,10 +4,10 @@ require_once('system/model/Measurement.class.php');
 
 class MeasurementListPage extends AbstractPage 
 {
+    protected $templateName = 'measurement_list';
     public function execute() 
     {
-        $db = AppCore::getDB();
-        $model = new Measurement($db);
+        $model = new Measurement();
 
         if (isset($_GET['station_id']) && isset($_GET['pollutant_id'])) 
         {

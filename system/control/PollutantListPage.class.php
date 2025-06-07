@@ -4,11 +4,12 @@ require_once('system/model/Pollutant.class.php');
 
 class PollutantListPage extends AbstractPage 
 {
+    protected $templateName = 'pollutant_list';
     public function execute() 
     {
         $db = AppCore::getDB();
         $model = new Pollutant($db);
-        $this->data = ['stations' => $model->getAll()];
+        $this->data = ['pollutants' => $model->getAll()];
     }
 }
 ?>

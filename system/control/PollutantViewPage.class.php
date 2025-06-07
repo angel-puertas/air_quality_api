@@ -6,8 +6,7 @@ class PollutantViewPage extends AbstractPage
 {
     public function execute() 
     {
-        $db = AppCore::getDB();
-        $model = new Pollutant($db);
+        $model = new Pollutant();
         $id = $_GET['id'] ?? null;
         $this->data = $model->getById($id);
     }

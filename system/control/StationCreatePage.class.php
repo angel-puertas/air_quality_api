@@ -6,8 +6,7 @@ class StationCreatePage extends AbstractPage
 {
     public function execute() 
     {
-        $db = AppCore::getDB();
-        $model = new Station($db);
+        $model = new Station();
         $input = json_decode(file_get_contents("php://input"), true);
         $id = $model->create($input['name']);
         $this->data = ['success' => true, 'id' => $id];

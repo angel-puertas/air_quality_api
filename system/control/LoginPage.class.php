@@ -23,8 +23,7 @@ class LoginPage extends AbstractPage
             return;
         }
 
-        $db = AppCore::getDB();
-        $userModel = new User($db);
+        $userModel = new User();
         $user = $userModel->getByUsername($username);
 
         if (!$user || !password_verify($password, $user['password'])) 

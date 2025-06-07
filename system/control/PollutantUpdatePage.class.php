@@ -7,8 +7,7 @@ class PollutantUpdatePage extends AbstractPage
     public function execute() 
     {
         //$this->requireAuth();
-        $db = AppCore::getDB();
-        $model = new Pollutant($db);
+        $model = new Pollutant();
         $input = json_decode(file_get_contents("php://input"), true);
         $id = $_GET['id'] ?? null;
         $ok = $model->update($id, $input['name']);

@@ -6,8 +6,7 @@ class StationDeletePage extends AbstractPage
 {
     public function execute() 
     {
-        $db = AppCore::getDB();
-        $model = new Station($db);
+        $model = new Station();
         $id = $_GET['id'] ?? null;
         $ok = $model->delete($id);
         $this->data = ['success' => $ok];
