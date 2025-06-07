@@ -1,7 +1,7 @@
 <?php
 abstract class AbstractPage {
     protected $data = [];
-    public $templateName = '';
+    protected $templateName = ''; 
 
     public function __construct() 
     {

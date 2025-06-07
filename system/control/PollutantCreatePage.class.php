@@ -6,7 +6,6 @@ class PollutantCreatePage extends AbstractPage
 {
     public function execute() 
     {
-        $this->requireAuth();
         $db = AppCore::getDB();
         $model = new Pollutant($db);
         $input = json_decode(file_get_contents("php://input"), true);

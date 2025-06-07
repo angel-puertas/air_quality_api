@@ -3,7 +3,7 @@ require_once(__DIR__ . '/AbstractPage.class.php');
 
 class ApiPage extends AbstractPage 
 {
-    public $templateName = ''; //outputs JSON (for now i guess)
+    protected $templateName = ''; //outputs JSON (for now i guess)
 
     public function execute() 
     {
@@ -74,6 +74,7 @@ class ApiPage extends AbstractPage
             exit;
         }
 
+        
         echo $response;
         exit;
     }

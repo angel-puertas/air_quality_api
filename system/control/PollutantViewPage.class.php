@@ -6,7 +6,6 @@ class PollutantViewPage extends AbstractPage
 {
     public function execute() 
     {
-        //$this->requireAuth();
         $db = AppCore::getDB();
         $model = new Pollutant($db);
         $id = $_GET['id'] ?? null;

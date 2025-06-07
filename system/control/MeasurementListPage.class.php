@@ -6,7 +6,6 @@ class MeasurementListPage extends AbstractPage
 {
     public function execute() 
     {
-        $this->requireAuth();
         $db = AppCore::getDB();
         $model = new Measurement($db);
 
