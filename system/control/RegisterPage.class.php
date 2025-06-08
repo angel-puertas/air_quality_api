@@ -120,7 +120,7 @@ class RegisterPage extends AbstractPage
                 // Auto-login after registration
                 session_start();
                 $_SESSION['user_id'] = $userId;
-                header('Location: /air_quality_api');
+                header('Location: index.php');
                 exit;
             }
         } else {

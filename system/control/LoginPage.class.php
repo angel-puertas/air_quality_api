@@ -104,7 +104,7 @@ class LoginPage extends AbstractPage
                 'message' => 'Login successful'
             ];
         } else {
-            header('Location: /air_quality_api');
+            header('Location: index.php');
             exit;
         }
     }
