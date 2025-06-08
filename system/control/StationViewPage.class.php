@@ -6,9 +6,14 @@ class StationViewPage extends AbstractPage
 {
     public function execute() 
     {
-        $model = new Station();
+        $model = $this->createStationModel();
         $id = $_GET['id'] ?? null;
         $this->data = $model->getById($id);
+    }
+
+    protected function createStationModel()
+    {
+        return new Station();
     }
 }
 ?>
