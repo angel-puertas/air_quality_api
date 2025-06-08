@@ -24,19 +24,23 @@ class MySQLiDatabase {
         }
     }
 
-    public function sendQuery($query) {
-        return $this->MySQLi->query($query);
+    public function prepare($query) {
+        $stmt = $this->MySQLi->prepare($query);
+        if (!$stmt) {
+            throw new Exception("Prepare failed: " . $this->MySQLi->error);
+        }
+        return $stmt;
     }
 
-    public function fetchArray($result = null) {
-        return $result->fetch_array();
+    public function execute($stmt, $types = "", $params = []) {
+        if (!empty($params)) {
+            $stmt->bind_param($types, ...$params);
+        }
+        if (!$stmt->execute()) {
+            throw new Exception("Execute failed: " . $stmt->error);
+        }
+        return $stmt;
     }
-
-    public function escape($value) 
-    {
-        return $this->MySQLi->real_escape_string($value);
-    }
-
 
     public function installDatabase() {
         $this->sendQuery("

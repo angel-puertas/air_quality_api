@@ -4,41 +4,38 @@ class Station extends AbstractModel {
 
     public function create($name) 
     {
-        $name = $this->db->escape($name);
-        $sql = "INSERT INTO stations (name) VALUES ('$name')";
-        $this->db->sendQuery($sql);
+        $stmt = $this->db->prepare("INSERT INTO stations (name) VALUES (?)");
+        $this->db->execute($stmt, "s", [$name]);
         return $this->db->MySQLi->insert_id;
     }
 
     public function getById($id) 
     {
-        $id = (int)$id;
-        $sql = "SELECT * FROM stations WHERE id=$id";
-        $result = $this->db->sendQuery($sql);
+        $stmt = $this->db->prepare("SELECT * FROM stations WHERE id = ?");
+        $this->db->execute($stmt, "i", [$id]);
+        $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
 
     public function update($id, $name) 
     {
-        $id = (int)$id;
-        $name = $this->db->escape($name);
-        $sql = "UPDATE stations SET name='$name' WHERE id=$id";
-        $this->db->sendQuery($sql);
+        $stmt = $this->db->prepare("UPDATE stations SET name = ? WHERE id = ?");
+        $this->db->execute($stmt, "si", [$name, $id]);
         return $this->db->MySQLi->affected_rows > 0;
     }
 
     public function delete($id) 
     {
-        $id = (int)$id;
-        $sql = "DELETE FROM stations WHERE id=$id";
-        $this->db->sendQuery($sql);
+        $stmt = $this->db->prepare("DELETE FROM stations WHERE id = ?");
+        $this->db->execute($stmt, "i", [$id]);
         return $this->db->MySQLi->affected_rows > 0;
     }
 
     public function getAll() 
     {
-        $sql = "SELECT * FROM stations";
-        $result = $this->db->sendQuery($sql);
+        $stmt = $this->db->prepare("SELECT * FROM stations");
+        $this->db->execute($stmt);
+        $result = $stmt->get_result();
         $stations = [];
         if (!$result) 
         {

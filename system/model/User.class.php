@@ -5,51 +5,48 @@ class User extends AbstractModel
 
     public function create($username, $password) 
     {
-        $username = $this->db->escape($username);
+        $stmt = $this->db->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO users (username, password) VALUES ('$username', '$hash')";
-        $this->db->sendQuery($sql);
+        $this->db->execute($stmt, "ss", [$username, $hash]);
         return $this->db->MySQLi->insert_id;
     }
 
     public function getById($id) 
     {
-        $id = (int)$id;
-        $sql = "SELECT * FROM users WHERE id=$id";
-        $result = $this->db->sendQuery($sql);
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE id = ?");
+        $this->db->execute($stmt, "i", [$id]);
+        $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
 
     public function getByUsername($username) 
     {
-        $username = $this->db->escape($username);
-        $sql = "SELECT * FROM users WHERE username='$username'";
-        $result = $this->db->sendQuery($sql);
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE username = ?");
+        $this->db->execute($stmt, "s", [$username]);
+        $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
 
     public function update($id, $username, $password) 
     {
-        $id = (int)$id;
-        $username = $this->db->escape($username);
+        $stmt = $this->db->prepare("UPDATE users SET username = ?, password = ? WHERE id = ?");
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "UPDATE users SET username='$username', password='$hash' WHERE id=$id";
-        $this->db->sendQuery($sql);
+        $this->db->execute($stmt, "ssi", [$username, $hash, $id]);
         return $this->db->MySQLi->affected_rows > 0;
     }
 
     public function delete($id) 
     {
-        $id = (int)$id;
-        $sql = "DELETE FROM users WHERE id=$id";
-        $this->db->sendQuery($sql);
+        $stmt = $this->db->prepare("DELETE FROM users WHERE id = ?");
+        $this->db->execute($stmt, "i", [$id]);
         return $this->db->MySQLi->affected_rows > 0;
     }
 
     public function getAll() 
     {
-        $sql = "SELECT * FROM users";
-        $result = $this->db->sendQuery($sql);
+        $stmt = $this->db->prepare("SELECT * FROM users");
+        $this->db->execute($stmt);
+        $result = $stmt->get_result();
         $users = [];
         if (!$result) 
         {
