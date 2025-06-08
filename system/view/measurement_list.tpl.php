@@ -19,7 +19,7 @@
         <tr>
             <th>ID</th>
             <th>StationID</th>
-            <th>PolutantID</th>
+            <th>PollutantID</th>
             <th>Value</th>
             <th>Unit</th>
             <th>Time</th>
@@ -28,7 +28,7 @@
         <tr>
             <td><?= htmlspecialchars($measurement['id'] ?? '') ?></td>
             <td><?= htmlspecialchars($measurement['station_id'] ?? '') ?></td>
-            <td><?= htmlspecialchars($measurement['polutant_id'] ?? '') ?></td>
+            <td><?= htmlspecialchars($measurement['pollutant_id'] ?? '') ?></td>
             <td><?= htmlspecialchars($measurement['value'] ?? '') ?></td>
             <td><?= htmlspecialchars($measurement['unit'] ?? '') ?></td>
             <td><?= htmlspecialchars($measurement['time'] ?? '') ?></td>
