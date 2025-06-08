@@ -12,3 +12,4 @@
 ```bash
 # Navigate to project in browser
 http://localhost/air_quality_api/install.php
+```

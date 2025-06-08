@@ -17,6 +17,7 @@ GET /?page=Api&postaja=1&polutant=1&tipPodatka=avg&vrijemeOd=2023-01-01&vrijemeD
 | `vrijemeDo` | string | Yes | End date (dd.mm.yyyy format) |
 
 ### Response Format
+```json
 {
   "success": true,
   "data": [
@@ -30,3 +31,4 @@ GET /?page=Api&postaja=1&polutant=1&tipPodatka=avg&vrijemeOd=2023-01-01&vrijemeD
     }
   ]
 }
+```
