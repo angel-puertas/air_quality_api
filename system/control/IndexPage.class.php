@@ -86,12 +86,20 @@ class IndexPage extends AbstractPage {
                 'description' => 'Get all measurements. Optional query: ?station_id={id}&pollutant_id={id}'
             ],
             [
+                'resource'    => 'Measurements - JSON',
+                'url'         => '?page=MeasurementListJSON',
+                'method'      => 'GET',
+                'description' => 'Get all measurements in json format. Optional query: ?station_id={id}&pollutant_id={id}'
+            ],
+            
+            [
                 'resource'    => 'Api',
                 'url'         => '?page=Api',
                 'method'      => 'GET',
                 'example'     => '?page=Api&postaja=307&polutant=1&tipPodatka=0&vrijemeOd=26.05.2024&vrijemeDo=06.06.2024',
                 'description' => 'Retreive data from the API. Example: ?page=Api&postaja=307&polutant=1&tipPodatka=0&vrijemeOd=26.05.2024&vrijemeDo=06.06.2024'
             ],
+            
             [
                 'resource'    => 'Logout',
                 'url'         => '?page=Logout',
