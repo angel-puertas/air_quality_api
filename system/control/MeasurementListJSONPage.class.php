@@ -13,6 +13,10 @@ class MeasurementListJSONPage extends AbstractPage
         {
             $this->data = ['measurements' => $model->getByStationAndPollutant($_GET['station_id'], $_GET['pollutant_id'])];
         } 
+        elseif (isset($_GET['station_id'])) 
+        {
+            $this->data = ['measurements' => $model->getByStation($_GET['station_id'])];
+        }
         elseif (isset($_GET['id'])) 
         {
             $this->data = ['measurement' => $model->getById($_GET['id'])];

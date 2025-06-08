@@ -15,6 +15,20 @@ class Measurement extends AbstractModel {
         return $this->db->MySQLi->insert_id;
     }
 
+    public function getByStation($station_id) //this was missing before
+    {
+        $station_id = (int)$station_id;
+        $sql = "SELECT * FROM measurements WHERE station_id = $station_id";
+        $result = $this->db->sendQuery($sql);
+        $measurements = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $measurements[] = $row;
+            }
+        }
+        return $measurements;
+    }
+
     public function getById($id) 
     {
         $id = (int)$id;

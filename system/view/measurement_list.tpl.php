@@ -1,4 +1,10 @@
-<?php $measurements = $data['measurements'] ?? []; ?>
+<?php 
+$measurements = [];
+if (isset($data['measurements'])) {
+    $measurements = $data['measurements'];
+} elseif (isset($data['measurement']) && $data['measurement']) {
+    $measurements = [ $data['measurement'] ]; // wrap single measurement in array
+}?>
 <!DOCTYPE html>
 <html>
 <head>
