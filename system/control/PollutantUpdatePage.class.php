@@ -7,7 +7,7 @@ class PollutantUpdatePage extends AbstractPage
     protected $templateName = 'pollutant_update';
     public function execute() 
     {
-        // $this->requireAuth();
+        $this->requireAuth();
         $model = new Pollutant($this->db);
 
         if ($_SERVER['REQUEST_METHOD'] === 'PUT') 

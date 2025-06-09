@@ -69,7 +69,7 @@ class IndexPage extends AbstractPage {
             ],
             [
                 'resource'    => 'Pollutants - Update',
-                'url'         => '?page=PollutantUpdate&id={id}',
+                'url'         => '?page=PollutantUpdate',
                 'method'      => 'PUT',
                 'description' => 'Update a pollutant by ID. Generates a simple html form for UPDATING a pollutant.'
             ],
