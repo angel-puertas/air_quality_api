@@ -35,13 +35,13 @@ class IndexPage extends AbstractPage {
                 'resource'    => 'Stations - Create',
                 'url'         => '?page=StationCreate',
                 'method'      => 'POST',
-                'description' => 'Create a new station.'
+                'description' => 'Create a new station. Generates a simple html form for CREATING a station.'
             ],
             [
                 'resource'    => 'Stations - Update',
                 'url'         => '?page=StationUpdate',
                 'method'      => 'PUT',
-                'description' => 'Update a station by ID. Generates a simple html form for editing'
+                'description' => 'Update a station by ID. Generates a simple html form for UPDATING a station.'
             ],
             [
                 'resource'    => 'Stations - Delete',
@@ -59,19 +59,19 @@ class IndexPage extends AbstractPage {
                 'resource'    => 'Pollutants - View',
                 'url'         => '?page=PollutantView&id={id}',
                 'method'      => 'GET',
-                'description' => 'Get data for a single pollutant by ID.'
+                'description' => 'Get data for a single pollutant by ID. Response in JSON format.'
             ],
             [
                 'resource'    => 'Pollutants - Create',
                 'url'         => '?page=PollutantCreate',
                 'method'      => 'POST',
-                'description' => 'Create a new pollutant. Body: {"name": "..."}'
+                'description' => 'Create a new pollutant. Generates a simple html form for CREATING a pollutant.'
             ],
             [
                 'resource'    => 'Pollutants - Update',
                 'url'         => '?page=PollutantUpdate&id={id}',
                 'method'      => 'PUT',
-                'description' => 'Update a pollutant by ID. Body: {"name": "..."}'
+                'description' => 'Update a pollutant by ID. Generates a simple html form for UPDATING a pollutant.'
             ],
             [
                 'resource'    => 'Pollutants - Delete',
