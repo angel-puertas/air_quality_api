@@ -11,13 +11,13 @@ class IndexPage extends AbstractPage {
                 'resource'    => 'Register',
                 'url'         => '?page=Register',
                 'method'      => 'POST',
-                'description' => 'Register a new user. Body: {"username": "...", "password": "..."}'
+                'description' => 'Register a new user.'
             ],
             [
                 'resource'    => 'Login',
                 'url'         => '?page=Login',
                 'method'      => 'POST',
-                'description' => 'Authenticate user and start session. Body: {"username": "...", "password": "..."}'
+                'description' => 'Authenticate user and start session.'
             ],
             [
                 'resource'    => 'Stations - List',
@@ -29,19 +29,19 @@ class IndexPage extends AbstractPage {
                 'resource'    => 'Stations - View',
                 'url'         => '?page=StationView&id={id}',
                 'method'      => 'GET',
-                'description' => 'Get data for a single station by ID.'
+                'description' => 'Get data for a single station by ID. Response in JSON format.'
             ],
             [
                 'resource'    => 'Stations - Create',
                 'url'         => '?page=StationCreate',
                 'method'      => 'POST',
-                'description' => 'Create a new station. Body: {"name": "..."}'
+                'description' => 'Create a new station.'
             ],
             [
                 'resource'    => 'Stations - Update',
-                'url'         => '?page=StationUpdate&id={id}',
+                'url'         => '?page=StationUpdate',
                 'method'      => 'PUT',
-                'description' => 'Update a station by ID. Body: {"name": "..."}'
+                'description' => 'Update a station by ID. Generates a simple html form for editing'
             ],
             [
                 'resource'    => 'Stations - Delete',

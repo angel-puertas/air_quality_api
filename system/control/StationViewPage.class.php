@@ -4,12 +4,14 @@ require_once('system/model/Station.class.php');
 
 class StationViewPage extends AbstractPage 
 {
-    protected $templateName = 'station_view';
     public function execute() 
     {
         $model = new Station($this->db);
         $id = $_GET['id'] ?? null;
-        $this->data = $model->getById($id);
+        $station = $model->getById($id);
+        header('Content-Type: application/json');
+        echo json_encode($station, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        exit;
     }
 }
 ?>
