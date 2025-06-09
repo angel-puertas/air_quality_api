@@ -2,9 +2,11 @@
 abstract class AbstractPage {
     protected $data = [];
     protected $templateName = ''; 
+    protected $db;
 
     public function __construct() 
     {
+        $this->db = AppCore::getDB();
         //$this->requireAuth(); 
         // this cannot be called here because it will block the login and register page
         $this->execute();

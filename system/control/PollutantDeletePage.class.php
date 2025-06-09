@@ -6,7 +6,7 @@ class PollutantDeletePage extends AbstractPage
 {
     public function execute() 
     {
-        $model = new Pollutant();
+        $model = new Pollutant($this->db);
         $id = $_GET['id'] ?? null;
         $ok = $model->delete($id);
         $this->data = ['success' => $ok];

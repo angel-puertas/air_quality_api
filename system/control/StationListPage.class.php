@@ -8,7 +8,7 @@ class StationListPage extends AbstractPage
     public function execute() 
     {
         //echo "StationListPage reached!"; //for testing purposes
-        $model = new Station();
+        $model = new Station($this->db);
         $this->data = ['stations' => $model->getAll()];
     }
 }

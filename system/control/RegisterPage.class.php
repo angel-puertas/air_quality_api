@@ -94,7 +94,7 @@ class RegisterPage extends AbstractPage
         }
 
         // Check if user already exists
-        $userModel = new User();
+        $userModel = new User($this->db);
         if ($userModel->getByUsername($username)) {
             $errors['username'] = 'Username already exists';
             if ($isJsonRequest) {

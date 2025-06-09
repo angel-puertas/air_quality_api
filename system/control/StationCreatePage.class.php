@@ -6,8 +6,8 @@ class StationCreatePage extends AbstractPage
 {
     public function execute() 
     {
+        $model = new Station($this->db);
         header('Content-Type: application/json');
-        $model = new Station();
         $input = json_decode(file_get_contents("php://input"), true);
         $id = $model->create($input['name']);
         $this->data = ['success' => true, 'id' => $id];

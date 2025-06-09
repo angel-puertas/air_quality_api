@@ -7,8 +7,7 @@ class PollutantListPage extends AbstractPage
     protected $templateName = 'pollutant_list';
     public function execute() 
     {
-        $db = AppCore::getDB();
-        $model = new Pollutant($db);
+        $model = new Pollutant($this->db);
         $this->data = ['pollutants' => $model->getAll()];
     }
 }

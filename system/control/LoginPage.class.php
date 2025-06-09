@@ -79,7 +79,7 @@ class LoginPage extends AbstractPage
             }
         }
 
-        $userModel = new User();
+        $userModel = new User($this->db);
         $user = $userModel->getByUsername($username);
 
         if (!$user || !password_verify($password, $user['password'])) {

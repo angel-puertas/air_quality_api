@@ -7,7 +7,7 @@ class MeasurementListJSONPage extends AbstractPage
     protected $templateName = 'measurement_list_JSON';
     public function execute() 
     {
-        $model = new Measurement();
+        $model = new Measurement($this->db);
 
         if (isset($_GET['station_id']) && isset($_GET['pollutant_id'])) 
         {

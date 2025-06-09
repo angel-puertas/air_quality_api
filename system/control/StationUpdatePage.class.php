@@ -6,9 +6,9 @@ class StationUpdatePage extends AbstractPage
 {
     public function execute() 
     {
+        $model = new Station($this->db);
         header('Content-Type: application/json');
         //$this->requireAuth();
-        $model = new Station();
         $input = json_decode(file_get_contents("php://input"), true);
         $id = $_GET['id'] ?? null;
         $ok = $model->update($id, $input['name']);
