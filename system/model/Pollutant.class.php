@@ -1,4 +1,3 @@
-
 <?php
 require_once(__DIR__ . '/AbstractModel.class.php');
 class Pollutant extends AbstractModel 
@@ -7,36 +6,49 @@ class Pollutant extends AbstractModel
     public function create($name) 
     {
         $stmt = $this->db->prepare("INSERT INTO pollutants (name) VALUES (?)");
-        $this->db->execute($stmt, "s", [$name]);
-        return $this->db->MySQLi->insert_id;
+        $stmt->bind_param("s", $name);
+        $stmt->execute();
+        $insertId = $stmt->insert_id;
+        $stmt->close();
+        return $insertId;
     }
 
     public function getById($id) 
     {
         $stmt = $this->db->prepare("SELECT * FROM pollutants WHERE id = ?");
-        $this->db->execute($stmt, "i", [$id]);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        $pollutant = $result->fetch_assoc();
+        $result->free();
+        $stmt->close();
+        return $pollutant;
     }
 
     public function update($id, $name) 
     {
         $stmt = $this->db->prepare("UPDATE pollutants SET name = ? WHERE id = ?");
-        $this->db->execute($stmt, "si", [$name, $id]);
-        return $this->db->MySQLi->affected_rows > 0;
+        $stmt->bind_param("si", $name, $id);
+        $stmt->execute();
+        $success = $stmt->affected_rows > 0;
+        $stmt->close();
+        return $success;
     }
 
     public function delete($id)
     {
         $stmt = $this->db->prepare("DELETE FROM pollutants WHERE id = ?");
-        $this->db->execute($stmt, "i", [$id]);
-        return $this->db->MySQLi->affected_rows > 0;
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $success = $stmt->affected_rows > 0;
+        $stmt->close();
+        return $success;
     }
 
     public function getAll() 
     {
         $stmt = $this->db->prepare("SELECT * FROM pollutants");
-        $this->db->execute($stmt);
+        $stmt->execute();
         $result = $stmt->get_result();
         $pollutants = [];
         if (!$result) 
@@ -47,6 +59,8 @@ class Pollutant extends AbstractModel
         {
             $pollutants[] = $row;
         }
+        $result->free();
+        $stmt->close();
         return $pollutants;
     }
 }

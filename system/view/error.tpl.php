@@ -1,3 +1,4 @@
 <?php
-print json_decode($message, JSON_PRETTY_PRINT);
+header('Content-Type: application/json');
+echo json_encode(['error' => $message], JSON_PRETTY_PRINT);
 ?>

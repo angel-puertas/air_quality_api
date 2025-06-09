@@ -4,6 +4,7 @@ require_once('system/model/Station.class.php');
 
 class StationViewPage extends AbstractPage 
 {
+    protected $templateName = 'station_view';
     public function execute() 
     {
         $model = $this->createStationModel();

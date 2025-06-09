@@ -19,6 +19,7 @@ class LoginPage extends AbstractPage
         }
 
         // Handle form submission or JSON API request
+        header('Content-Type: application/json');
         $this->handleLogin();
     }
     

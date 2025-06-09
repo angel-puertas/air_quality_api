@@ -4,6 +4,7 @@ require_once('system/model/Pollutant.class.php');
 
 class PollutantViewPage extends AbstractPage 
 {
+    protected $templateName = 'pollutant_view';
     public function execute() 
     {
         $model = new Pollutant();

@@ -6,6 +6,7 @@ class PollutantUpdatePage extends AbstractPage
 {
     public function execute() 
     {
+        header('Content-Type: application/json');
         //$this->requireAuth();
         $model = new Pollutant();
         $input = json_decode(file_get_contents("php://input"), true);

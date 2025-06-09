@@ -32,15 +32,15 @@ class MySQLiDatabase {
         return $stmt;
     }
 
-    public function execute($stmt, $types = "", $params = []) {
-        if (!empty($params)) {
-            $stmt->bind_param($types, ...$params);
-        }
-        if (!$stmt->execute()) {
-            throw new Exception("Execute failed: " . $stmt->error);
-        }
-        return $stmt;
-    }
+    // public function execute($stmt, $types = "", $params = []) {
+    //     if (!empty($params)) {
+    //         $stmt->bind_param($types, ...$params);
+    //     }
+    //     if (!$stmt->execute()) {
+    //         throw new Exception("Execute failed: " . $stmt->error);
+    //     }
+    //     return $stmt;
+    // }
 
     public function installDatabase() {
         $this->sendQuery("

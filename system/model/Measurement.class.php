@@ -8,70 +8,80 @@ class Measurement extends AbstractModel {
             INSERT INTO measurements (station_id, pollutant_id, value, unit, time)
             VALUES (?, ?, ?, ?, ?)
         ");
-
-        $this->db->execute($stmt, "iisss", [
-            (int)$station_id,
-            (int)$pollutant_id,
-            $value,
-            $unit,
-            $time
-        ]); 
-
-        return $this->db->MySQLi->insert_id;
+        $stmt->bind_param("iisss", $station_id, $pollutant_id, $value, $unit, $time);
+        $stmt->execute();
+        $insertId = $stmt->insert_id;
+        $stmt->close();
+        return $insertId;
     }
 
     public function getByStation($station_id) //this was missing before
     {
-
         $stmt = $this->db->prepare("SELECT * FROM measurements WHERE station_id = ?");
-        $this->db->execute($stmt, "i", [$station_id]);
+        $stmt->bind_param("i", $station_id);
+        $stmt->execute();
         $result = $stmt->get_result();
         $measurements = [];
         if ($result) {
             while ($row = $result->fetch_assoc()) {
                 $measurements[] = $row;
             }
+            $result->free();
         }
+        $stmt->close();
         return $measurements;
     }
 
     public function getById($id) 
     {
-
         $stmt = $this->db->prepare("SELECT * FROM measurements WHERE id = ?");
-        $this->db->execute($stmt, "i", [$id]);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        $measurement = $result->fetch_assoc();
+        $result->free();
+        $stmt->close();
+        return $measurement;
     }
 
     public function getByStationAndPollutant($station_id, $pollutant_id) 
     {
         $stmt = $this->db->prepare("SELECT * FROM measurements WHERE station_id = ? AND pollutant_id = ?");
-        $this->db->execute($stmt, "ii", [$station_id, $pollutant_id]);
+        $stmt->bind_param("ii", $station_id, $pollutant_id);
+        $stmt->execute();
         $result = $stmt->get_result();
         $measurements = [];
         while ($row = $result->fetch_assoc()) {
             $measurements[] = $row;
         }
+        $result->free();
+        $stmt->close();
         return $measurements;
     }
 
     public function update($id, $value, $unit, $time) 
     {
         $stmt = $this->db->prepare("UPDATE measurements SET value = ?, unit = ?, time = ? WHERE id = ?");
-        $this->db->execute($stmt, "sssi", [$value, $unit, $time, $id]);
-        return $this->db->MySQLi->affected_rows > 0;
+        $stmt->bind_param("sssi", $value, $unit, $time, $id);
+        $stmt->execute();
+        $success = $stmt->affected_rows > 0;
+        $stmt->close();
+        return $success;
     }
 
     public function delete($id) 
     {
         $stmt = $this->db->prepare("DELETE FROM measurements WHERE id = ?");
-        $this->db->execute($stmt, "i", [$id]);
-        return $this->db->MySQLi->affected_rows > 0;
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $success = $stmt->affected_rows > 0;
+        $stmt->close();
+        return $success;
     }
 
     public function getAll() {
         $stmt = $this->db->prepare("SELECT * FROM measurements");
+        $stmt->execute();
         $result = $stmt->get_result();
         $measurements = [];
         if (!$result) 
@@ -82,6 +92,8 @@ class Measurement extends AbstractModel {
         {
             $measurements[] = $row;
         }
+        $result->free();
+        $stmt->close();
         return $measurements;
     }
 }

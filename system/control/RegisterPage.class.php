@@ -6,7 +6,7 @@ class RegisterPage extends AbstractPage
 {
     protected $templateName = 'register';
     
-    public function execute() {
+    public function execute() {       
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $this->showRegisterForm();
             return;
@@ -19,6 +19,7 @@ class RegisterPage extends AbstractPage
         }
 
         // Handle form submission or JSON API request
+        header('Content-Type: application/json');
         $this->handleRegistration();
     }
     

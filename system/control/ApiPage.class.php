@@ -69,7 +69,6 @@ class ApiPage extends AbstractPage
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        header('Content-Type: application/json');
         if ($response === false || $httpCode !== 200) 
         {
             http_response_code(502);

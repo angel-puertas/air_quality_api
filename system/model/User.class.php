@@ -7,45 +7,62 @@ class User extends AbstractModel
     {
         $stmt = $this->db->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $this->db->execute($stmt, "ss", [$username, $hash]);
-        return $this->db->MySQLi->insert_id;
+        $stmt->bind_param("ss", $username, $hash);
+        $stmt->execute();
+        $insertId = $stmt->insert_id;
+        $stmt->close();
+        return $insertId;
     }
 
     public function getById($id) 
     {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE id = ?");
-        $this->db->execute($stmt, "i", [$id]);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        $user = $result->fetch_assoc();
+        $result->free();
+        $stmt->close();
+        return $user;
     }
 
     public function getByUsername($username) 
     {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE username = ?");
-        $this->db->execute($stmt, "s", [$username]);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        $user = $result->fetch_assoc();
+        $result->free();
+        $stmt->close();
+        return $user;
     }
 
     public function update($id, $username, $password) 
     {
         $stmt = $this->db->prepare("UPDATE users SET username = ?, password = ? WHERE id = ?");
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $this->db->execute($stmt, "ssi", [$username, $hash, $id]);
-        return $this->db->MySQLi->affected_rows > 0;
+        $stmt->bind_param("ssi", $username, $hash, $id);
+        $stmt->execute();
+        $success = $stmt->affected_rows > 0;
+        $stmt->close();
+        return $success;
     }
 
     public function delete($id) 
     {
         $stmt = $this->db->prepare("DELETE FROM users WHERE id = ?");
-        $this->db->execute($stmt, "i", [$id]);
-        return $this->db->MySQLi->affected_rows > 0;
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $success = $stmt->affected_rows > 0;
+        $stmt->close();
+        return $success;
     }
 
     public function getAll() 
     {
         $stmt = $this->db->prepare("SELECT * FROM users");
-        $this->db->execute($stmt);
+        $stmt->execute();
         $result = $stmt->get_result();
         $users = [];
         if (!$result) 
@@ -56,6 +73,8 @@ class User extends AbstractModel
         {
             $users[] = $row;
         }
+        $result->free();
+        $stmt->close();
         return $users;
     }
 }

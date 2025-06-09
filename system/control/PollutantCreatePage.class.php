@@ -6,6 +6,7 @@ class PollutantCreatePage extends AbstractPage
 {
     public function execute() 
     {
+        header('Content-Type: application/json');
         $model = new Pollutant();
         $input = json_decode(file_get_contents("php://input"), true);
         $id = $model->create($input['name']);
