@@ -32,13 +32,10 @@ class StationViewPageTest extends TestCase
     {
         $expectedStation = ['id' => 5, 'name' => 'Test Station'];
         
-        // Create a mock database
         $mockDb = $this->createMock(\mysqli::class);
         
-        // Create a mock prepared statement
         $mockStmt = $this->createMock(\mysqli_stmt::class);
         
-        // Configure the mock statement to return our expected result
         $mockResult = $this->createMock(\mysqli_result::class);
         $mockResult->method('fetch_assoc')
                   ->willReturn($expectedStation);
@@ -54,30 +51,23 @@ class StationViewPageTest extends TestCase
         $mockStmt->method('close')
                 ->willReturn(true);
         
-        // Configure the mock database to return our mock statement
         $mockDb->method('prepare')
                ->willReturn($mockStmt);
         
-        // Set up AppCore singleton with our mock database
         $appCoreProperty = new ReflectionProperty(AppCore::class, 'dbObj');
         $appCoreProperty->setAccessible(true);
         $appCoreProperty->setValue(null, $mockDb);
         
-        // Set up $_GET parameter
         $_GET['id'] = 5;
         
-        // Create our page
         $stationViewPage = new TestableStationViewPage();
         
-        // Execute the page again to trigger our test logic
         $stationViewPage->execute();
         
-        // Use Reflection to access protected property
         $dataProperty = new ReflectionProperty(TestableStationViewPage::class, 'data');
         $dataProperty->setAccessible(true);
         $actualData = $dataProperty->getValue($stationViewPage);
         
-        // Verify the result
         $this->assertEquals($expectedStation, $actualData);
     }
 }
