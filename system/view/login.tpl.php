@@ -64,6 +64,15 @@
     </style>
 </head>
 <body>
+    <?php if (!empty($data['general_error'])): ?>
+        <h1>Already Logged In</h1>
+        <p><?= htmlspecialchars($data['general_error']) ?></p>
+        <ul>
+            <li><a href="?page=Logout">Logout</a></li>
+            <li><a href="?page=Index">Go to Index (Dashboard)</a></li>
+        </ul>
+    <?php else: ?>
+
     <h1><?= htmlspecialchars($data['title'] ?? 'Login') ?></h1>
     
     <div class="form-container">
@@ -101,5 +110,6 @@
             </div>
         </form>
     </div>
+    <?php endif; ?>
 </body>
 </html>

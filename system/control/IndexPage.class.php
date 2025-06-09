@@ -108,7 +108,8 @@ class IndexPage extends AbstractPage {
             ],
         ];
 
-        $this->data = [
+        $this->data = 
+        [
             'resources' => $resources
         ];
     }

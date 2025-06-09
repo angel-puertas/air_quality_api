@@ -7,6 +7,14 @@ class LoginPage extends AbstractPage
     protected $templateName = 'login';
     
     public function execute() {
+        // Check if the user is already logged in
+        session_start();
+        if (isset($_SESSION['user_id'])) 
+        {
+            $this->data['general_error'] = 'You are already logged in.';
+            return;
+        } 
+
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $this->showLoginForm();
             return;

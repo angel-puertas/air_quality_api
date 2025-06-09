@@ -7,8 +7,9 @@ class StationUpdatePage extends AbstractPage
     protected $templateName = 'station_update';
     public function execute() 
     {
+        $this->requireAuth();
         $model = new Station($this->db);
-        
+
         if ($_SERVER['REQUEST_METHOD'] === 'PUT') 
         {
             header('Content-Type: application/json');

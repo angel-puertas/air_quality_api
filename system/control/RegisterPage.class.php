@@ -6,7 +6,15 @@ class RegisterPage extends AbstractPage
 {
     protected $templateName = 'register';
     
-    public function execute() {       
+    public function execute() {   
+        // Check if the user is already logged in
+        session_start();
+        if (isset($_SESSION['user_id'])) 
+        {
+            $this->data['general_error'] = 'You are already logged in.';
+            return;
+        }
+        
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $this->showRegisterForm();
             return;

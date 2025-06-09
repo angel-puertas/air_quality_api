@@ -7,6 +7,7 @@ class PollutantCreatePage extends AbstractPage
     protected $templateName = 'pollutant_create';
     public function execute() 
     {
+        $this->requireAuth();
         $model = new Pollutant($this->db);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') 
