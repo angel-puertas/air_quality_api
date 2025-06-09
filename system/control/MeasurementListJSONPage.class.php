@@ -23,7 +23,14 @@ class MeasurementListJSONPage extends AbstractPage
         } 
         else 
         {
-            $this->data = ['measurements' => $model->getAll()];
+            //fake test
+            if (isset($_GET['fake'])) {
+                $this->data = ['measurements' => $model->fakeStation()];
+            } 
+            else 
+            {
+                $this->data = ['measurements' => $model->getAll()];
+            }
         }
     }
 }

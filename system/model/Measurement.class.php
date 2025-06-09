@@ -96,5 +96,36 @@ class Measurement extends AbstractModel {
         $stmt->close();
         return $measurements;
     }
+
+
+    public function fakeStation()
+    {
+        return [
+            [
+                'id' => 1,
+                'station_id' => 999,
+                'pollutant_id' => 1,
+                'value' => 40,
+                'unit' => "%",
+                'time' => 123456
+            ],
+            [
+                'id' => 2,
+                'station_id' => 999,
+                'pollutant_id' => 1,
+                'value' => 50,
+                'unit' => "%",
+                'time' => 980000
+            ],
+            [
+                'id' => 3,
+                'station_id' => 999,
+                'pollutant_id' => 1,
+                'value' => 60,
+                'unit' => "%",
+                'time' => 717711
+            ]
+        ];
+    }
 }
 ?>

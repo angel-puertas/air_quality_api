@@ -2,7 +2,7 @@
 require_once(__DIR__ . '/AbstractPage.class.php');
 require_once('system/model/Measurement.class.php');
 require_once('system/AppCore.class.php');
-
+header('Content-Type: application/json');
 
 class ApiPage extends AbstractPage 
 {
@@ -99,7 +99,7 @@ class ApiPage extends AbstractPage
         }
 
         $measurements = $measurementModel->getByStationAndPollutant((int)$station, (int)$pollutant);
-        echo json_encode($measurements);
+        echo json_encode($measurements, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         exit;
     }
 }
