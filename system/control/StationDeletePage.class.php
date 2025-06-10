@@ -9,7 +9,8 @@ class StationDeletePage extends AbstractPage
     {
         $this->requireAuth(); 
         
-        if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_SERVER['REQUEST_METHOD'] === 'DELETE') {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_SERVER['REQUEST_METHOD'] === 'DELETE') 
+        {
             $model = new Station($this->db);
             $id = $_GET['id'] ?? null;
             $ok = $model->delete($id);

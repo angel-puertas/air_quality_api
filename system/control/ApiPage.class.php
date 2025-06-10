@@ -78,7 +78,8 @@ class ApiPage extends AbstractPage
 
         
         $data = json_decode($response, true);
-        if (!is_array($data)) {
+        if (!is_array($data)) 
+        {
             http_response_code(500);
             echo json_encode(['error' => 'Invalid data format from external API.']);
             exit;
