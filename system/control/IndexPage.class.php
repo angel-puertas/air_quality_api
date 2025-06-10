@@ -6,6 +6,7 @@ class IndexPage extends AbstractPage {
 
     public function execute() 
     {
+        header('Content-Type: text/html');
         $resources = [
             [
                 'resource'    => 'Register',
