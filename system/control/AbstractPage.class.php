@@ -27,7 +27,7 @@ abstract class AbstractPage {
         if (empty($_SESSION['user_id'])) 
         {
             http_response_code(401);
-            echo json_encode(['error' => 'Unauthorized'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            echo json_encode(['success' => false, 'message' => 'Unauthorized'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             exit;
         }
     }
