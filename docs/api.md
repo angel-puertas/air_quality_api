@@ -59,7 +59,6 @@ GET /?page=StationView&id=1
     "station": {
         "id": 1,
         "name": "Station Name",
-        "created_at": "2023-01-01T12:00:00"
     }
 }
 ```
@@ -102,7 +101,6 @@ GET /?page=PollutantList
     "pollutant": {
         "id": 1,
         "name": "Pollutant Name",
-        "created_at": "2023-01-01T12:00:00"
     }
 }
 ```
@@ -131,37 +129,13 @@ GET /?page=MeasurementListJSON
 {
     "measurements": [
         {
-            "id": 1,
-            "station_id": 1,
+            "id": 2,
+            "station_id": 307,
             "pollutant_id": 1,
-            "value": "12.5",
-            "unit": "µg/m³",
-            "time": "2023-01-01T12:00:00",
-            "created_at": "2023-01-01T12:00:00"
+            "value": "2.3",
+            "unit": "µg/m3",
+            "time": "1716681600000"
         }
     ]
 }
 ```
-
-## Error Responses
-All endpoints use standard HTTP status codes:
-
-| Status Code | Description | Response Format |
-|-------------|-------------|-----------------|
-| 200 | Success | `{ "success": true, "data": {...} }` |
-| 400 | Bad Request | `{ "error": "Invalid parameters" }` |
-| 401 | Unauthorized | `{ "error": "Authentication required" }` |
-| 404 | Not Found | `{ "error": "Resource not found" }` |
-| 500 | Internal Error | `{ "error": "Internal server error" }` |
-| 502 | External API Error | `{ "error": "Failed to fetch data from external API" }` |
-
-## Rate Limiting
-The API implements rate limiting:
-- 100 requests per minute per IP address
-- 1000 requests per hour per IP address
-
-## Versioning
-Current API version: 1.0
-
-## Security
-All endpoints require HTTPS connection. Authentication endpoints use session-based authentication.

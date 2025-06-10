@@ -2,7 +2,7 @@
 
 ## Unit Tests
 ✅ AppCoreTest
-✅ StationViewPageTest::testExecuteWithValidId
+✅ StationTest
 
 ## Testing Report
 Time: 00:00.777, Memory: 6.00 MB
