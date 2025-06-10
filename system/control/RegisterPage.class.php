@@ -3,177 +3,65 @@ require_once(__DIR__ . '/AbstractPage.class.php');
 require_once('system/model/User.class.php');
 
 class RegisterPage extends AbstractPage 
-{
-    protected $templateName = 'register';
-    
-    public function execute() {   
+{   
+    public function execute() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405); // Method Not Allowed
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Method must be POST'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            exit;
+        }
+
+        // Get JSON input
+        $input = json_decode(file_get_contents("php://input"), true);
+        if (!$input) {
+            http_response_code(400); // Bad Request
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Invalid JSON data'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            exit;
+        }
+
         // Check if the user is already logged in
         session_start();
-        if (isset($_SESSION['user_id'])) 
-        {
-            $this->data['general_error'] = 'You are already logged in.';
+        if (isset($_SESSION['user_id'])) {
+            echo json_encode(['success' => false, 'message' => 'You are already logged in.']);
             return;
         }
 
-        // Allow registration via GET parameters for testing/demo purposes
-        $username = $_GET['username'] ?? null;
-        $password = $_GET['password'] ?? null;
-        $confirmPassword = $_GET['confirm_password'] ?? null;
+        $username = $input['username'] ?? null;
+        $password = $input['password'] ?? null;
+        $confirmPassword = $input['confirm_password'] ?? null;
 
         if ($username && $password && $confirmPassword) {
+            // Validate input
             $errors = $this->validateRegistrationInput($username, $password, $confirmPassword);
 
+            // Check if username already exists
             $userModel = new User($this->db);
             if ($userModel->getByUsername($username)) {
                 $errors['username'] = 'Username already exists';
             }
 
             if (!empty($errors)) {
-                $this->data = ['success' => false, 'errors' => $errors];
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'errors' => $errors]);
                 return;
             }
 
             $userId = $userModel->create($username, $password);
 
             if ($userId) {
-                $this->data = [
-                    'success' => true,
-                    'user_id' => $userId,
-                    'message' => 'Registration successful'
-                ];
+                header('Content-Type: application/json');
+                echo json_encode(['success' => true, 'user_id' => $userId, 'message' => 'Registration successful']);
+                return;
             } else {
-                $this->data = ['success' => false, 'message' => 'Registration failed'];
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'message' => 'Registration failed']);
+                return;
             }
             return;
         }
-        
-        // Show form for GET without params
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $this->showRegisterForm();
-            return;
-        }
-        
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            http_response_code(405);
-            $this->data = ['error' => 'Method Not Allowed'];
-            return;
-        }
-
-        // Handle form submission or JSON API request
-        header('Content-Type: application/json');
-        $this->handleRegistration();
-    }
-    
-    private function showRegisterForm($errors = [], $values = []) {
-        $this->data = [
-            'title' => 'Register',
-            'method' => 'POST',
-            'action' => $_SERVER['REQUEST_URI'],
-            'submit_text' => 'Create Account',
-            'fields' => [
-                [
-                    'name' => 'username',
-                    'label' => 'Username',
-                    'type' => 'text',
-                    'required' => true,
-                    'value' => $values['username'] ?? '',
-                    'error' => $errors['username'] ?? null
-                ],
-                [
-                    'name' => 'password',
-                    'label' => 'Password',
-                    'type' => 'password',
-                    'required' => true,
-                    'error' => $errors['password'] ?? null
-                ],
-                [
-                    'name' => 'confirm_password',
-                    'label' => 'Confirm Password',
-                    'type' => 'password',
-                    'required' => true,
-                    'error' => $errors['confirm_password'] ?? null
-                ]
-            ]
-        ];
-        
-        if (isset($errors['general'])) {
-            $this->data['general_error'] = $errors['general'];
-        }
-    }
-    
-    private function handleRegistration() {
-        // Check if it's JSON request (API) or form submission
-        $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
-        $isJsonRequest = strpos($contentType, 'application/json') !== false;
-        
-        if ($isJsonRequest) {
-            // Handle JSON API request
-            $input = json_decode(file_get_contents("php://input"), true);
-            $formData = $input;
-        } else {
-            // Handle form submission
-            $formData = $_POST;
-        }
-
-        // Extract form data
-        $username = trim($formData['username'] ?? '');
-        $password = $formData['password'] ?? '';
-        $confirmPassword = $formData['confirm_password'] ?? '';
-
-        // Validate input
-        $errors = $this->validateRegistrationInput($username, $password, $confirmPassword);
-        
-        if (!empty($errors)) {
-            if ($isJsonRequest) {
-                http_response_code(400);
-                $this->data = ['errors' => $errors];
-                return;
-            } else {
-                $this->showRegisterForm($errors, $formData);
-                return;
-            }
-        }
-
-        // Check if user already exists
-        $userModel = new User($this->db);
-        if ($userModel->getByUsername($username)) {
-            $errors['username'] = 'Username already exists';
-            if ($isJsonRequest) {
-                http_response_code(409);
-                $this->data = ['errors' => $errors];
-                return;
-            } else {
-                $this->showRegisterForm($errors, $formData);
-                return;
-            }
-        }
-
-        $userId = $userModel->create($username, $password);
-
-        if ($userId) {
-            if ($isJsonRequest) {
-                http_response_code(201);
-                $this->data = [
-                    'success' => true,
-                    'user_id' => $userId,
-                    'message' => 'Registration successful'
-                ];
-            } else {
-                // Auto-login after registration
-                session_start();
-                $_SESSION['user_id'] = $userId;
-                header('Location: index.php');
-                exit;
-            }
-        } else {
-            if ($isJsonRequest) {
-                http_response_code(500);
-                $this->data = ['error' => 'Registration failed'];
-            } else {
-                $errors['general'] = 'Registration failed. Please try again.';
-                $this->showRegisterForm($errors, $formData);
-            }
-        }
+        exit;
     }
     
     private function validateRegistrationInput($username, $password, $confirmPassword) {

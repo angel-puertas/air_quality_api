@@ -4,28 +4,28 @@ require_once('system/model/Station.class.php');
 
 class StationDeletePage extends AbstractPage 
 {
-    protected $templateName = 'station_delete';
     public function execute() 
     {
-        $this->requireAuth(); 
+        $this->requireAuth();
         
-        if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_SERVER['REQUEST_METHOD'] === 'DELETE') {
-            $model = new Station($this->db);
-            $id = $_GET['id'] ?? null;
-            $ok = $model->delete($id);
-            if ($ok) 
-            {
-                $this->data = ['success' => true, 'message' => 'Station is deleted!'];
-            } 
-            else 
-            {
-                $this->data = ['success' => false, 'message' => 'There is no station with this ID'];
-            }
-        } 
-        else 
-        {
-            $this->data = ['error' => 'Invalid request method'];
+        if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+            http_response_code(405); // Method Not Allowed
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Method must be DELETE'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            exit;
         }
+
+        $model = new Station($this->db);
+        $id = $_GET['id'] ?? null;
+        $ok = $model->delete($id);
+        if ($ok) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true, 'message' => 'Station is deleted!'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        } else {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'There is no station with this ID'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        }
+        exit;
     }
 }
 ?>

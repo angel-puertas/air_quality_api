@@ -4,30 +4,42 @@ require_once('system/model/Pollutant.class.php');
 
 class PollutantUpdatePage extends AbstractPage 
 {
-    protected $templateName = 'pollutant_update';
     public function execute() 
     {
         $this->requireAuth();
-        $model = new Pollutant($this->db);
 
-        $id = $_GET['id'] ?? null;
-        $name = $_GET['name'] ?? null;
+        if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
+            http_response_code(405); // Method Not Allowed
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Method must be PUT'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            exit;
+        }
+
+        $input = json_decode(file_get_contents("php://input"), true);
+        if (!$input) {
+            http_response_code(400); // Bad Request
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Invalid JSON data'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            exit;
+        }
+
+        $model = new Pollutant($this->db);
+        header('Content-Type: application/json');
+
+        $id = $input['id'] ?? null;
+        $name = $input['name'] ?? null;
 
         if ($id && $name) {
             $ok = $model->update($id, $name);
-            if ($ok) 
-            {
-                $this->data = ['success' => true, 'message' => 'Pollutant updated!'];
-            } 
-            else 
-            {
-                $this->data = ['success' => false, 'message' => 'There is no pollutant with this ID'];
+            if ($ok) {
+                echo json_encode(['success' => true, 'message' => 'Pollutant updated!'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'There is no pollutant with this ID'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             }
-        } 
-        else 
-        {
-            $this->data = ['success' => false, 'message' => 'Missing id or name'];
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Missing id or name'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         }
+        exit;
     }
 }
 ?>

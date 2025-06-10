@@ -4,28 +4,34 @@ require_once('system/model/Pollutant.class.php');
 
 class PollutantDeletePage extends AbstractPage 
 {
-    protected $templateName = 'pollutant_delete';
     public function execute() 
     {
         $this->requireAuth(); 
 
-        if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_SERVER['REQUEST_METHOD'] === 'DELETE') {
-            $model = new Pollutant($this->db);
-            $id = $_GET['id'] ?? null;
-            $ok = $model->delete($id);
-            if ($ok) 
-            {
-                $this->data = ['success' => true, 'message' => 'Pollutant is deleted!'];
-            } 
-            else 
-            {
-                $this->data = ['success' => false, 'message' => 'There is no pollutant with this ID'];
-            }
+        if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+            http_response_code(405); // Method Not Allowed
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Method must be DELETE'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            exit;
         }
-        else 
-        {
-            $this->data = ['error' => 'Invalid request method'];
+
+        $model = new Pollutant($this->db);
+        header('Content-Type: application/json');
+
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            http_response_code(400); // Bad Request
+            echo json_encode(['error' => 'Missing pollutant ID'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            exit;
         }
+
+        $ok = $model->delete($id);
+        if ($ok) {
+            echo json_encode(['success' => true, 'message' => 'Pollutant is deleted!'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'There is no pollutant with this ID'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        }
+        exit;
     }
 }
 ?>

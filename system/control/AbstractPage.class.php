@@ -1,16 +1,12 @@
 <?php
 abstract class AbstractPage {
     protected $data = [];
-    protected $templateName = ''; 
     protected $db;
+    protected $templateName;
 
     public function __construct() 
     {
-        //$this->execute();
         $this->db = AppCore::getDB();
-        //$this->requireAuth(); 
-        // this cannot be called here because it will block 
-        // the login and register page which doesnt make sense
         $this->execute();
         $this->show();
     }
@@ -31,7 +27,7 @@ abstract class AbstractPage {
         {
             http_response_code(401);
             header('Content-Type: application/json');
-            echo json_encode(['error' => 'Unauthorized']);
+            echo json_encode(['error' => 'Unauthorized'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             exit;
         }
     }

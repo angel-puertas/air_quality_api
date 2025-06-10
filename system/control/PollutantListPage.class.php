@@ -4,11 +4,21 @@ require_once('system/model/Pollutant.class.php');
 
 class PollutantListPage extends AbstractPage 
 {
-    protected $templateName = 'pollutant_list';
     public function execute() 
     {
+        if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+            http_response_code(405); // Method Not Allowed
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Method must be GET'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            exit;
+        }
+
         $model = new Pollutant($this->db);
-        $this->data = ['pollutants' => $model->getAll()];
+        $pollutants = $model->getAll();
+
+        header('Content-Type: application/json');
+        echo json_encode($pollutants, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        exit;
     }
 }
 ?>

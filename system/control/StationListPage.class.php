@@ -4,14 +4,12 @@ require_once('system/model/Station.class.php');
 
 class StationListPage extends AbstractPage 
 {
-    protected $templateName = 'station_list';
     public function execute() 
     {
-        //echo "StationListPage reached!"; //for testing purposes
+        header('Content-Type: application/json');
         $model = new Station($this->db);
-        $this->data = ['stations' => $model->getAll()];
+        echo json_encode($model->getAll(), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        exit;
     }
 }
-
-$page = new StationListPage();
 ?>

@@ -4,27 +4,21 @@ require_once('system/model/Measurement.class.php');
 
 class MeasurementListPage extends AbstractPage 
 {
-    protected $templateName = 'measurement_list';
-    public function execute() 
+    public function execute()
     {
+        header('Content-Type: application/json');
         $model = new Measurement($this->db);
 
-        if (isset($_GET['station_id']) && isset($_GET['pollutant_id'])) 
-        {
-            $this->data = ['measurements' => $model->getByStationAndPollutant($_GET['station_id'], $_GET['pollutant_id'])];
-        } 
-        elseif (isset($_GET['station_id'])) 
-        {
-            $this->data = ['measurements' => $model->getByStation($_GET['station_id'])];
+        if (isset($_GET['station_id']) && isset($_GET['pollutant_id'])) {
+            echo json_encode($model->getByStationAndPollutant($_GET['station_id'], $_GET['pollutant_id']), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        } elseif (isset($_GET['station_id'])) {
+            echo json_encode($model->getByStation($_GET['station_id']), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        } elseif (isset($_GET['id'])) {
+            echo json_encode($model->getById($_GET['id']), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        } else {
+            echo json_encode($model->getAll(), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         }
-        elseif (isset($_GET['id'])) 
-        {
-            $this->data = ['measurement' => $model->getById($_GET['id'])];
-        } 
-        else 
-        {
-            $this->data = ['measurements' => $model->getAll()];
-        }
+        exit;
     }
 }
 ?>

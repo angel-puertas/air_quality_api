@@ -4,6 +4,29 @@ class Measurement extends AbstractModel {
 
     public function create($station_id, $pollutant_id, $value, $unit, $time) // why no unit?? 
     {
+        // TESTING THIS FOR APIPAGE
+        $stmt = $this->db->prepare("
+        SELECT id 
+        FROM measurements 
+        WHERE station_id = ? 
+        AND pollutant_id = ? 
+        AND value = ? 
+        AND unit = ? 
+        AND time = ?
+        ");
+        $stmt->bind_param("iisss", $station_id, $pollutant_id, $value, $unit, $time);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            // Measurement already exists, return existing ID
+            $measurement = $result->fetch_assoc();
+            $stmt->close();
+            return $measurement['id'];
+        }
+        $stmt->close();
+
+
         $stmt = $this->db->prepare("
             INSERT INTO measurements (station_id, pollutant_id, value, unit, time)
             VALUES (?, ?, ?, ?, ?)

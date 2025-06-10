@@ -4,88 +4,52 @@ require_once('system/model/User.class.php');
 
 class LoginPage extends AbstractPage 
 {
-    protected $templateName = 'login';
-
     public function execute() 
-    {   
+    {
+        // Check if user is already logged in
         session_start();
-        if (isset($_SESSION['user_id'])) 
-        {
-            $this->data['general_error'] = 'You are already logged in.';
-            return;
-        }
-        $username = $_GET['username'] ?? null;
-        $password = $_GET['password'] ?? null;
-
-        if ($username && $password) {
-            $userModel = new User($this->db);
-            $user = $userModel->getByUsername($username);
-
-            if ($user && password_verify($password, $user['password'])) 
-            {
-                $_SESSION['user_id'] = $user['id'];
-                $this->data = 
-                [
-                    'success' => true,
-                    'message' => 'Login successful',
-                    //header('Location: index.php'), 
-                ];
-            } 
-            else 
-            {
-                $this->data = 
-                [
-                    'success' => false,
-                    'error' => 'Invalid username or password'
-                ];
-            }
-            return;
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') 
-        {
-            return;
+        if (isset($_SESSION['user_id'])) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'You are already logged in.'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            exit;
         }
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             http_response_code(405);
-            $this->data = ['error' => 'Method Not Allowed'];
-            return;
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'Method Not Allowed'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            exit;
         }
 
-        header('Content-Type: application/json');
-        $this->handleLogin();
-    }
-
-    private function handleLogin() 
-    {
-        $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
-        $isJsonRequest = strpos($contentType, 'application/json') !== false;
-
-        if ($isJsonRequest) {
-            $input = json_decode(file_get_contents("php://input"), true);
-            $formData = $input;
-        } else {
-            $formData = $_POST;
+        $input = json_decode(file_get_contents("php://input"), true);
+        if (!$input) {
+            http_response_code(400); // Bad Request
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'Invalid JSON data'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            exit;
         }
 
-        $username = trim($formData['username'] ?? '');
-        $password = $formData['password'] ?? '';
+        $username = $input['username'] ?? null;
+        $password = $input['password'] ?? null;
+
+        if (!$username || !$password) {
+            http_response_code(400);
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'Missing username or password'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            exit;
+        }
 
         $userModel = new User($this->db);
         $user = $userModel->getByUsername($username);
 
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
-            $this->data = [
-                'success' => true,
-                'message' => 'Login successful'
-            ];
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true, 'message' => 'Login successful'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         } else {
-            $this->data = [
-                'success' => false,
-                'error' => 'Invalid username or password'
-            ];
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'Invalid username or password'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         }
+        exit;
     }
 }
