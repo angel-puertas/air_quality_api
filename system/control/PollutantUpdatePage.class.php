@@ -10,23 +10,23 @@ class PollutantUpdatePage extends AbstractPage
         $this->requireAuth();
         $model = new Pollutant($this->db);
 
-        if ($_SERVER['REQUEST_METHOD'] === 'PUT') 
-        {
-            header('Content-Type: application/json');
-            $input = json_decode(file_get_contents("php://input"), true);
-            $id = $_GET['id'] ?? null;
-            if ($id && isset($input['name'])) {
-                $ok = $model->update($id, $input['name']);
-                if ($ok) {
-                    $this->data = ['success' => true];
-                } else {
-                    $this->data = ['error' => 'There is no pollutant with this ID'];
-                }
-            } else {
-                $this->data = ['error' => 'Invalid input'];
+        $id = $_GET['id'] ?? null;
+        $name = $_GET['name'] ?? null;
+
+        if ($id && $name) {
+            $ok = $model->update($id, $name);
+            if ($ok) 
+            {
+                $this->data = ['success' => true, 'message' => 'Pollutant updated!'];
+            } 
+            else 
+            {
+                $this->data = ['success' => false, 'message' => 'There is no pollutant with this ID'];
             }
-            echo json_encode($this->data);
-            exit;
+        } 
+        else 
+        {
+            $this->data = ['success' => false, 'message' => 'Missing id or name'];
         }
     }
 }
