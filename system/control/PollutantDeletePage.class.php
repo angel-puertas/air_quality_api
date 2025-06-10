@@ -27,7 +27,7 @@ class PollutantDeletePage extends AbstractPage
 
         $ok = $model->delete($id);
         if ($ok) {
-            echo json_encode(['success' => true, 'message' => 'Pollutant is deleted!'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            echo json_encode(['success' => true, 'message' => 'Pollutant is deleted!', 'data' => ['id' => $id, 'name' => $name]], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         } else {
             echo json_encode(['success' => false, 'message' => 'There is no pollutant with this ID'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         }

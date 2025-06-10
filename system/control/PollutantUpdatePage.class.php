@@ -31,7 +31,7 @@ class PollutantUpdatePage extends AbstractPage
         if ($id && $name) {
             $ok = $model->update($id, $name);
             if ($ok) {
-                echo json_encode(['success' => true, 'message' => 'Pollutant updated!'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                echo json_encode(['success' => true, 'message' => 'Pollutant updated!', 'data' => ['id' => $id, 'name' => $name]], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             } else {
                 echo json_encode(['success' => false, 'message' => 'There is no pollutant with this ID'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             }

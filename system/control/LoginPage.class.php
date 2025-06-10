@@ -42,7 +42,7 @@ class LoginPage extends AbstractPage
 
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
-            echo json_encode(['success' => true, 'message' => 'Login successful'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            echo json_encode(['success' => true, 'message' => 'Login successful!', 'data' => ['id' => $user['id'], 'username' => $user['username']]], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         } else {
             echo json_encode(['success' => false, 'message' => 'Invalid username or password'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         }

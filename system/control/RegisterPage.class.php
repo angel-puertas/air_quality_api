@@ -50,7 +50,7 @@ class RegisterPage extends AbstractPage
             $userId = $userModel->create($username, $password);
 
             if ($userId) {
-                echo json_encode(['success' => true, 'user_id' => $userId, 'message' => 'Registration successful']);
+                echo json_encode(['success' => true, 'message' => 'Registration successful!', 'data' => ['id' => $userId, 'username' => $username]], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                 return;
             } else {
                 echo json_encode(['success' => false, 'message' => 'Registration failed']);

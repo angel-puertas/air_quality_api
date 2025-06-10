@@ -29,7 +29,7 @@ class PollutantCreatePage extends AbstractPage
 
         if ($name) {
             $id = $model->create($name);
-            echo json_encode(['success' => true, 'id' => $id, 'message' => 'Pollutant created!'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            echo json_encode(['success' => true, 'message' => 'Pollutant created!', 'data' => ['id' => $id, 'name' => $name]], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         } else {
             echo json_encode(['success' => false, 'message' => 'Missing pollutant name'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         }
