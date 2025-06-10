@@ -10,18 +10,16 @@ class PollutantDeletePage extends AbstractPage
 
         if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
             http_response_code(405); // Method Not Allowed
-            header('Content-Type: application/json');
-            echo json_encode(['error' => 'Method must be DELETE'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            echo json_encode(['success' => false, 'message' => 'Method must be DELETE'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             exit;
         }
 
         $model = new Pollutant($this->db);
-        header('Content-Type: application/json');
 
         $id = $_GET['id'] ?? null;
         if (!$id) {
             http_response_code(400); // Bad Request
-            echo json_encode(['error' => 'Missing pollutant ID'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            echo json_encode(['success' => false, 'message' => 'Missing pollutant ID'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             exit;
         }
 

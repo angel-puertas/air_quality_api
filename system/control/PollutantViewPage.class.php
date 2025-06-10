@@ -8,8 +8,7 @@ class PollutantViewPage extends AbstractPage
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
             http_response_code(405); // Method Not Allowed
-            header('Content-Type: application/json');
-            echo json_encode(['error' => 'Method must be GET'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            echo json_encode(['success' => false, 'message' => 'Method must be GET'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             exit;
         }
         
@@ -19,12 +18,10 @@ class PollutantViewPage extends AbstractPage
         
         if ($pollutant === null) {
             http_response_code(404); // Not Found
-            header('Content-Type: application/json');
-            echo json_encode(['error' => 'Pollutant not found'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            echo json_encode(['success' => false, 'message' => 'Pollutant not found'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             exit;
         }
 
-        header('Content-Type: application/json');
         echo json_encode($pollutant, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         exit;
     }

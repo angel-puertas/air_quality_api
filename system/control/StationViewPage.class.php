@@ -8,8 +8,7 @@ class StationViewPage extends AbstractPage
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
             http_response_code(405); // Method Not Allowed
-            header('Content-Type: application/json');
-            echo json_encode(['error' => 'Method must be GET'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            echo json_encode(['success' => false, 'message' => 'Method must be GET'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             exit;
         }
 
@@ -19,13 +18,11 @@ class StationViewPage extends AbstractPage
 
         if ($station === null) {
             http_response_code(404); // Not Found
-            header('Content-Type: application/json');
-            echo json_encode(['error' => 'Station not found'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            echo json_encode(['success' => false, 'message' => 'Station not found'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             exit;
         }
         
-        header('Content-Type: application/json');
-        echo json_encode($station, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        echo json_encode($station, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         exit;
     }
 }

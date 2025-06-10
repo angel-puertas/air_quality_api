@@ -64,7 +64,6 @@ class ApiPage extends AbstractPage
         }
 
         // Return success message
-        header('Content-Type: application/json');
         echo json_encode(['success' => true, 'message' => 'Data collection completed for station ' . $stationId], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         exit;
     }

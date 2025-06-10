@@ -7,8 +7,7 @@ class LogoutPage extends AbstractPage
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             http_response_code(405); // Method Not Allowed
-            header('Content-Type: application/json');
-            echo json_encode(['error' => 'Method must be POST'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            echo json_encode(['success' => false, 'message' => 'Method must be POST'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             exit;
         }
 
@@ -16,8 +15,7 @@ class LogoutPage extends AbstractPage
         session_unset();
         session_destroy();
 
-        header('Content-Type: application/json');
-        echo json_encode(['message' => 'You have been logged out.'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        echo json_encode(['success' => true, 'message' => 'You have been logged out.'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         exit;
     }
 }

@@ -7,6 +7,7 @@ abstract class AbstractPage {
     public function __construct() 
     {
         $this->db = AppCore::getDB();
+        header('Content-Type: application/json');
         $this->execute();
         $this->show();
     }
@@ -26,7 +27,6 @@ abstract class AbstractPage {
         if (empty($_SESSION['user_id'])) 
         {
             http_response_code(401);
-            header('Content-Type: application/json');
             echo json_encode(['error' => 'Unauthorized'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             exit;
         }
