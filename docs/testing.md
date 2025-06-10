@@ -17,5 +17,5 @@ vendor\bin\phpunit tests\
 
 ### Run specific test
 ```bash
-vendor\bin\phpunit tests\unit\StationViewPageTest.php
+vendor\bin\phpunit tests\unit\StationTest.php
 ```
