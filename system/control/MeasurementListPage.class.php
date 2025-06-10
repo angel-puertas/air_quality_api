@@ -10,7 +10,11 @@ class MeasurementListPage extends AbstractPage
 
         $model = new Measurement($this->db);
 
-        if (isset($_GET['station_id']) && isset($_GET['pollutant_id'])) 
+        if (isset($_GET['fake'])) 
+        {
+            echo json_encode($model->fakeStation(), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        }
+        elseif (isset($_GET['station_id']) && isset($_GET['pollutant_id'])) 
         {
             echo json_encode($model->getByStationAndPollutant($_GET['station_id'], $_GET['pollutant_id']), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         } 
@@ -27,7 +31,6 @@ class MeasurementListPage extends AbstractPage
             echo json_encode($model->getAll(), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         }
 
-        
         exit;
     }
 }

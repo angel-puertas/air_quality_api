@@ -97,13 +97,14 @@ class IndexPage extends AbstractPage
                 'resource'    => 'Measurements - List',
                 'url'         => '?page=MeasurementList',
                 'method'      => 'GET',
-                'description' => 'Get all measurements. Optional query: &station_id={id}&pollutant_id={id} // &station_id={id} // &id={id}'
+                'description' => 'Get all measurements. Optional query: &station_id={id}&pollutant_id={id} // &station_id={id} // &pollutant_id={id} // &id={id} <br> For fake test: &fake=true'
             ],            
             [
                 'resource'    => 'Api',
                 'url'         => '?page=Api',
                 'method'      => 'GET',
-                'description' => 'Get data from external API and store into database. Example: ?page=Api&station=307&pollutant=1&type=0&fromDate=26.05.2024&toDate=06.06.2024'
+                'description' => 'Get data from external API and store into DB. Example:<br>
+            ?page=Api&station=307&pollutant=1&type=0&fromDate=26.05.2024&toDate=06.06.2024'
             ]
         ];
 
