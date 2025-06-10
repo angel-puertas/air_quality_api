@@ -45,8 +45,10 @@ class Measurement extends AbstractModel {
         $stmt->execute();
         $result = $stmt->get_result();
         $measurements = [];
-        if ($result) {
-            while ($row = $result->fetch_assoc()) {
+        if ($result) 
+        {
+            while ($row = $result->fetch_assoc()) 
+            {
                 $measurements[] = $row;
             }
             $result->free();
@@ -102,7 +104,8 @@ class Measurement extends AbstractModel {
         return $success;
     }
 
-    public function getAll() {
+    public function getAll() 
+    {
         $stmt = $this->db->prepare("SELECT * FROM measurements");
         $stmt->execute();
         $result = $stmt->get_result();

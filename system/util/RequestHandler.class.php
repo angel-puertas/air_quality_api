@@ -7,7 +7,8 @@ class RequestHandler {
         new $className;
     }
 
-    public static function handle() {
+    public static function handle() 
+    {
         $request = $_GET['page'] ?? 'Index';
         new RequestHandler($request);
     }

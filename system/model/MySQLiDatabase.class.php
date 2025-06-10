@@ -7,7 +7,8 @@ class MySQLiDatabase {
     protected $password;
     protected $database;
     
-    public function __construct ($host, $user, $password, $database) {
+    public function __construct ($host, $user, $password, $database) 
+    {
         $this->host = $host;
         $this->user = $user;
         $this->password = $password;
@@ -16,7 +17,8 @@ class MySQLiDatabase {
         $this->connect();
     }
 
-    protected function connect() {
+    protected function connect() 
+    {
         $this->MySQLi = new MySQLi($this->host, $this->user, $this->password, $this->database);
         if ($this->MySQLi->connect_error) //just in case
         {
@@ -24,7 +26,8 @@ class MySQLiDatabase {
         }
     }
 
-    public function prepare($query) {
+    public function prepare($query) 
+    {
         $stmt = $this->MySQLi->prepare($query);
         if (!$stmt) {
             throw new Exception("Prepare failed: " . $this->MySQLi->error);
@@ -42,7 +45,8 @@ class MySQLiDatabase {
     //     return $stmt;
     // }
 
-    public function installDatabase() {
+    public function installDatabase() 
+    {
         $this->sendQuery("
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,

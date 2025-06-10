@@ -10,14 +10,16 @@ class PollutantUpdatePage extends AbstractPage
 
         $this->requireAuth();
 
-        if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
+        if ($_SERVER['REQUEST_METHOD'] !== 'PUT') 
+        {
             http_response_code(405); // Method Not Allowed
             echo json_encode(['success' => false, 'message' => 'Method must be PUT'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             exit;
         }
 
         $input = json_decode(file_get_contents("php://input"), true);
-        if (!$input) {
+        if (!$input) 
+        {
             http_response_code(400); // Bad Request
             echo json_encode(['success' => false, 'message' => 'Invalid JSON data'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             exit;
@@ -28,14 +30,20 @@ class PollutantUpdatePage extends AbstractPage
         $id = $input['id'] ?? null;
         $name = $input['name'] ?? null;
 
-        if ($id && $name) {
+        if ($id && $name) 
+        {
             $ok = $model->update($id, $name);
-            if ($ok) {
+            if ($ok) 
+            {
                 echo json_encode(['success' => true, 'message' => 'Pollutant updated!', 'data' => ['id' => $id, 'name' => $name]], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-            } else {
+            } 
+            else 
+            {
                 echo json_encode(['success' => false, 'message' => 'There is no pollutant with this ID'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             }
-        } else {
+        } 
+        else 
+        {
             echo json_encode(['success' => false, 'message' => 'Missing id or name'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         }
         exit;

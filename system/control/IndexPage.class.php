@@ -1,12 +1,14 @@
 <?php
 require_once(__DIR__ . '/AbstractPage.class.php');
 
-class IndexPage extends AbstractPage {
+class IndexPage extends AbstractPage 
+{
     protected $templateName = 'index';
 
     public function execute() 
     {
-        $resources = [
+        $resources = 
+        [
             [
                 'resource'    => 'Register',
                 'url'         => '?page=Register',

@@ -2,7 +2,7 @@
 class AppCore {
     protected static $dbObj = null;
 
-    function __construct($runRouter = true) //idk how it actually works but it works
+    function __construct($runRouter = true) //idk 
     {
         $this->initDB();
 
@@ -28,11 +28,13 @@ class AppCore {
         }
     }
 
-    public static final function getDB() {
+    public static final function getDB() 
+    {
         return self::$dbObj;
     }
 
-    public static function handleException($e) {
+    public static function handleException($e) 
+    {
         echo "<h2>Uncaught Exception:</h2>";
         echo "<b>Message:</b> " . $e->getMessage() . "<br>";
         echo "<b>File:</b> " . $e->getFile() . "<br>";

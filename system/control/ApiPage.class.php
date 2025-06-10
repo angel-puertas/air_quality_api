@@ -69,7 +69,8 @@ class ApiPage extends AbstractPage
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if ($response === false || $httpCode !== 200) {
+        if ($response === false || $httpCode !== 200) 
+        {
             http_response_code(502);
             echo json_encode(['error' => 'Failed to fetch data from external API.']);
             exit;
@@ -77,7 +78,8 @@ class ApiPage extends AbstractPage
 
         
         $data = json_decode($response, true);
-        if (!is_array($data)) {
+        if (!is_array($data)) 
+        {
             http_response_code(500);
             echo json_encode(['error' => 'Invalid data format from external API.']);
             exit;
@@ -90,7 +92,8 @@ class ApiPage extends AbstractPage
             $value = $item['vrijednost'] ?? null;
             $unit = $item['mjernaJedinica'] ?? '';
             $time = $item['vrijeme'] ?? '';
-            if ($value !== null && $time !== '') {
+            if ($value !== null && $time !== '') 
+            {
                 $measurementModel->create($station, $pollutant, $value, $unit, $time);
             }
         }

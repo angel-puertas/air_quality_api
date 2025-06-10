@@ -1,5 +1,6 @@
 <?php
-abstract class AbstractPage {
+abstract class AbstractPage 
+{
     protected $data = [];
     protected $db;
     protected $templateName;
@@ -11,7 +12,8 @@ abstract class AbstractPage {
         $this->show();
     }
 
-    public function show() {
+    public function show() 
+    {
         $template = $this->templateName;
         $data = $this->data;
         include_once('system/view/' . $template . '.tpl.php');
