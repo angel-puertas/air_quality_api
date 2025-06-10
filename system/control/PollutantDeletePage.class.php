@@ -4,7 +4,7 @@ require_once('system/model/Pollutant.class.php');
 
 class PollutantDeletePage extends AbstractPage 
 {
-    protected $templateName = 'pollutant_delete';
+    protected $templateName = 'json';
     public function execute() 
     {
         $this->requireAuth(); 
@@ -26,6 +26,10 @@ class PollutantDeletePage extends AbstractPage
         {
             $this->data = ['error' => 'Invalid request method'];
         }
+
+        // header('Content-Type: application/json');
+        // echo json_encode($this->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        // exit;
     }
 }
 ?>

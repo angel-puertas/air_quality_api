@@ -4,7 +4,7 @@ require_once('system/model/Station.class.php');
 
 class StationUpdatePage extends AbstractPage 
 {
-    protected $templateName = 'station_update';
+    protected $templateName = 'json';
     public function execute() 
     {
         $this->requireAuth();

@@ -4,6 +4,7 @@ require_once('system/model/Station.class.php');
 
 class StationViewPage extends AbstractPage 
 {
+    protected $templateName = 'json';
     public function execute() 
     {
         $model = new Station($this->db);

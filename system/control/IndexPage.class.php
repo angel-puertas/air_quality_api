@@ -85,12 +85,6 @@ class IndexPage extends AbstractPage {
                 'method'      => 'GET',
                 'description' => 'Get all measurements. Optional query: &station_id={id}&pollutant_id={id} // &station_id={id} // &id={id}'
             ],
-            [
-                'resource'    => 'Measurements - JSON',
-                'url'         => '?page=MeasurementListJSON',
-                'method'      => 'GET',
-                'description' => 'Get all measurements in json format. Optional query: &station_id={id}&pollutant_id={id} // &station_id={id} // &id={id} // &fake=true'
-            ],
             
             [
                 'resource'    => 'Api',

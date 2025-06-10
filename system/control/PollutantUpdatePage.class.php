@@ -4,7 +4,7 @@ require_once('system/model/Pollutant.class.php');
 
 class PollutantUpdatePage extends AbstractPage 
 {
-    protected $templateName = 'pollutant_update';
+    protected $templateName = 'json';
     public function execute() 
     {
         $this->requireAuth();
@@ -28,6 +28,10 @@ class PollutantUpdatePage extends AbstractPage
         {
             $this->data = ['success' => false, 'message' => 'Missing id or name'];
         }
+
+        // header('Content-Type: application/json');
+        // echo json_encode($this->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        // exit;
     }
 }
 ?>

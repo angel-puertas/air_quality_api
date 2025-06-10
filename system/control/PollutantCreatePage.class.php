@@ -4,7 +4,7 @@ require_once('system/model/Pollutant.class.php');
 
 class PollutantCreatePage extends AbstractPage 
 {
-    protected $templateName = 'pollutant_create';
+    protected $templateName = 'json';
     public function execute() 
     {
         $this->requireAuth();
@@ -21,6 +21,7 @@ class PollutantCreatePage extends AbstractPage
         {
             $this->data = ['success' => false, 'message' => 'Missing pollutant name'];
         }
+
     }
 }
 ?>

@@ -4,7 +4,7 @@ require_once('system/model/Measurement.class.php');
 
 class MeasurementListPage extends AbstractPage 
 {
-    protected $templateName = 'measurement_list';
+    protected $templateName = 'json';
     public function execute() 
     {
         $model = new Measurement($this->db);
@@ -23,8 +23,19 @@ class MeasurementListPage extends AbstractPage
         } 
         else 
         {
-            $this->data = ['measurements' => $model->getAll()];
+            //fake test
+            if (isset($_GET['fake'])) {
+                $this->data = ['measurements' => $model->fakeStation()];
+            } 
+            else 
+            {
+                $this->data = ['measurements' => $model->getAll()];
+            }
         }
+
+        // header('Content-Type: application/json');
+        // echo json_encode($this->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        // exit;
     }
 }
 ?>

@@ -4,6 +4,7 @@ require_once('system/model/Pollutant.class.php');
 
 class PollutantViewPage extends AbstractPage 
 {
+    protected $templateName = 'json';
     public function execute() 
     {
         $model = new Pollutant($this->db);
@@ -14,7 +15,6 @@ class PollutantViewPage extends AbstractPage
         header('Content-Type: application/json');
         echo json_encode($pollutant, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         exit;
-
         
     }
 }

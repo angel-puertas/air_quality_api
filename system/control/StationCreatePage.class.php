@@ -4,7 +4,7 @@ require_once('system/model/Station.class.php');
 
 class StationCreatePage extends AbstractPage 
 {
-    protected $templateName = 'station_create';
+    protected $templateName = 'json';
     public function execute() 
     {
         $this->requireAuth();
@@ -21,6 +21,10 @@ class StationCreatePage extends AbstractPage
         {
             $this->data = ['success' => false, 'message' => 'Missing station name'];
         }
+        
+        // header('Content-Type: application/json');
+        // echo json_encode($this->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        // exit;
     }
 }
 ?>

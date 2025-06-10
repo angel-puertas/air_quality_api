@@ -4,11 +4,12 @@ require_once('system/model/Pollutant.class.php');
 
 class PollutantListPage extends AbstractPage 
 {
-    protected $templateName = 'pollutant_list';
+    protected $templateName = 'json';
     public function execute() 
     {
         $model = new Pollutant($this->db);
         $this->data = ['pollutants' => $model->getAll()];
+
     }
 }
 ?>
