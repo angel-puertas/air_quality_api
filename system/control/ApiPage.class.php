@@ -2,120 +2,102 @@
 require_once(__DIR__ . '/AbstractPage.class.php');
 require_once('system/model/Measurement.class.php');
 require_once('system/AppCore.class.php');
-require_once('system/model/Station.class.php');
-require_once('system/model/Pollutant.class.php');
+header('Content-Type: application/json');
 
 class ApiPage extends AbstractPage 
 {
-    protected $templateName = '';
+    protected $templateName = ''; //outputs JSON (for now i guess)
 
     public function execute() 
     {
-        // Get station from GET parameter
-        $stationId = $_GET['station_id'] ?? null;
+        $station = $_GET['station'] ?? null;
+        $pollutant = $_GET['pollutant'] ?? null;
+        $type = $_GET['type']  ?? null;
+        $fromDate = $_GET['fromDate'] ?? null;
+        $toDate = $_GET['toDate'] ?? null;
 
-        // Validate station parameter
-        if (!$stationId) {
+        //validinf presense of parameters
+        if ($station === null || $pollutant === null || $type === null || $fromDate === null || $toDate === null) 
+        {
             http_response_code(400);
-            header('Content-Type: application/json');
-            echo json_encode(['error' => 'station_id is required parameter'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            echo json_encode(['error' => 'Missing required parameters.']);
             exit;
         }
 
-        if (!ctype_digit($stationId)) {
+        //validating parameters' format
+        if (!ctype_digit($station)) 
+        {
             http_response_code(400);
-            header('Content-Type: application/json');
-            echo json_encode(['error' => 'station_id must be a number'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            echo json_encode(['error' => 'Parameter "postaja" must be a number.']);
+            exit;
+        }
+        if (!ctype_digit($pollutant)) 
+        {
+            http_response_code(400);
+            echo json_encode(['error' => 'Parameter "polutant" must be a number.']);
+            exit;
+        }
+        if (!ctype_digit($type)) 
+        {
+            http_response_code(400);
+            echo json_encode(['error' => 'Parameter "tipPodatka" must be a number.']);
             exit;
         }
 
-        // Get station and all pollutants
-        $stationModel = new Station($this->db);
-        $pollutantModel = new Pollutant($this->db);
-
-        $station = $stationModel->getById($stationId);
-        $pollutants = $pollutantModel->getAll();
-
-        if (!$station) {
-            http_response_code(404);
-            header('Content-Type: application/json');
-            echo json_encode(['error' => 'Station not found'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        $datePattern = '/^\d{2}\.\d{2}\.\d{4}$/';
+        if (!preg_match($datePattern, $fromDate)) 
+        {
+            http_response_code(400);
+            echo json_encode(['error' => 'Parameter "fromDate" must be in format dd.mm.yyyy.']);
+            exit;
+        }
+        if (!preg_match($datePattern, $toDate)) 
+        {
+            http_response_code(400);
+            echo json_encode(['error' => 'Parameter "toDate" must be in format dd.mm.yyyy.']);
             exit;
         }
 
-        // Define date range (e.g., last 24 hours)
-        $from = date('d.m.Y', strtotime('-1 day'));
-        $to = date('d.m.Y');
+        $apiUrl = "https://iszz.azo.hr/iskzl/rs/podatak/export/json?postaja=$station&polutant=$pollutant&tipPodatka=$type" .
+            "&vrijemeOd=$fromDate&vrijemeDo=$toDate";
 
-        // For each pollutant
-        foreach ($pollutants as $pollutant) {
-            // Construct API URL
-            $apiUrl = "https://iszz.azo.hr/iskzl/rs/podatak/export/json?postaja=$stationId&polutant={$pollutant['id']}&tipPodatka=0" .
-                "&vrijemeOd=$from&vrijemeDo=$to";
 
-            // Fetch and store data
-            try {
-                $this->fetchAndStoreData($apiUrl, $stationId, $pollutant['id']);
-            } catch (Exception $e) {
-                error_log("Failed to fetch data for station $stationId, pollutant {$pollutant['id']}: " . $e->getMessage());
-                // Continue with next pollutant even if one fails
-                continue;
-            }
-        }
-
-        // Return success message
-        echo json_encode(['success' => true, 'message' => 'Data collection completed for station ' . $stationId], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-        exit;
-    }
-
-    private function fetchAndStoreData($url, $stationId, $pollutantId)
-    {
-        $ch = curl_init($url);
+        $ch = curl_init($apiUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-        
+
         if ($response === false || $httpCode !== 200) {
-            throw new \Exception("Failed to fetch data for station $stationId, pollutant $pollutantId");
+            http_response_code(502);
+            echo json_encode(['error' => 'Failed to fetch data from external API.']);
+            exit;
         }
 
+        
         $data = json_decode($response, true);
         if (!is_array($data)) {
-            throw new \Exception("Invalid data format for station $stationId, pollutant $pollutantId");
+            http_response_code(500);
+            echo json_encode(['error' => 'Invalid data format from external API.']);
+            exit;
         }
 
-        if (empty($data)) {
-            throw new \Exception("No measurements received for station $stationId, pollututant $pollutantId");
-        }
-
-        $measurementModel = new Measurement($this->db);
-        $measurementsStored = 0;
+        $db = \AppCore::getDB();
+        $measurementModel = new \Measurement($db);
 
         foreach ($data as $item) {
             $value = $item['vrijednost'] ?? null;
             $unit = $item['mjernaJedinica'] ?? '';
             $time = $item['vrijeme'] ?? '';
-
-            // Convert milliseconds to date
-            if ($time !== '') {
-                $time = date('Y-m-d H:i:s', $time/1000); // Convert from milliseconds to seconds
-            }
-
             if ($value !== null && $time !== '') {
-                try {
-                    $measurementModel->create($stationId, $pollutantId, $value, $unit, $time);
-                    $measurementsStored++;
-                } catch (Exception $e) {
-                    error_log("Failed to store measurement: " . $e->getMessage());
-                }
+                $measurementModel->create($station, $pollutant, $value, $unit, $time);
             }
         }
 
-        if ($measurementsStored === 0) {
-            throw new \Exception("No measurements were stored for station $stationId, pollututant $pollutantId");
-        }
+        $measurements = $measurementModel->getByStationAndPollutant($station, $pollutant);
+        echo json_encode($measurements, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        exit;
     }
 }
 ?>

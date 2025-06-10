@@ -54,6 +54,7 @@ $resources = $data['resources'] ?? [];
             <th>#</th>
             <th>Endpoint</th>
             <th>Method</th>
+            <th>Body</th>
             <th>Description</th>
         </tr>
         <?php foreach ($resources as $key => $resource) { ?>
@@ -63,6 +64,7 @@ $resources = $data['resources'] ?? [];
                 <td class="method-<?= htmlspecialchars($resource['method']) ?>">
                     <?= htmlspecialchars($resource['method']) ?>
                 </td>
+                <td class="desc"><?= htmlspecialchars($resource['body'] ?? '') ?></td>
                 <td class="desc"><?= htmlspecialchars($resource['description']) ?></td>
             </tr>
         <?php } ?>

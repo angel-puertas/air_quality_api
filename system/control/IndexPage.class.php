@@ -6,18 +6,19 @@ class IndexPage extends AbstractPage {
 
     public function execute() 
     {
-        header('Content-Type: text/html');
         $resources = [
             [
                 'resource'    => 'Register',
-                'url'         => '?page=Register&username=NAME&password=PSWD6&confirm_password=PSWD',
+                'url'         => '?page=Register',
                 'method'      => 'POST',
+                'body'        => '{ username=NAME, password=PSWD6, confirm_password=PSWD }',
                 'description' => 'Register a new user.'
             ],
             [
-                'resource'    => 'Login&username=NAME&password=PSWD',
+                'resource'    => 'Login',
                 'url'         => '?page=Login',
                 'method'      => 'POST',
+                'body'        => '{ username=NAME, password=PSWD }',
                 'description' => 'Authenticate user and start session.'
             ],
             [
@@ -30,17 +31,19 @@ class IndexPage extends AbstractPage {
                 'resource'    => 'Stations - View',
                 'url'         => '?page=StationView&id={id}',
                 'method'      => 'GET',
-                'description' => 'Get data for a single station by ID. Response in JSON format.'
+                'description' => 'Get data for a single station by ID.'
             ],
             [
                 'resource'    => 'Stations - Create',
-                'url'         => '?page=StationCreate&name={name}',
+                'url'         => '?page=StationCreate',
                 'method'      => 'POST',
+                'body'        => '{ name=NAME }',
                 'description' => 'Create a new station.'
             ],
             [
                 'resource'    => 'Stations - Update',
-                'url'         => '?page=StationUpdate&id={id}&name={name}',
+                'url'         => '?page=StationUpdate',
+                'body'        => '{ id=ID, name=NAME }',
                 'method'      => 'PUT',
                 'description' => 'Update a station by ID.'
             ],
@@ -64,14 +67,16 @@ class IndexPage extends AbstractPage {
             ],
             [
                 'resource'    => 'Pollutants - Create',
-                'url'         => '?page=PollutantCreate&name={name}',
+                'url'         => '?page=PollutantCreate',
                 'method'      => 'POST',
+                'body'        => '{ name=NAME }',
                 'description' => 'Create a new pollutant.'
             ],
             [
                 'resource'    => 'Pollutants - Update',
-                'url'         => '?page=PollutantUpdate&id={id}&name={name}',
+                'url'         => '?page=PollutantUpdate',
                 'method'      => 'PUT',
+                'body'        => '{ id=ID, name=NAME }',
                 'description' => 'Update a pollutant by ID.'
             ],
             [
@@ -85,22 +90,13 @@ class IndexPage extends AbstractPage {
                 'url'         => '?page=MeasurementList',
                 'method'      => 'GET',
                 'description' => 'Get all measurements. Optional query: &station_id={id}&pollutant_id={id} // &station_id={id} // &id={id}'
-            ],
-            [
-                'resource'    => 'Measurements - JSON',
-                'url'         => '?page=MeasurementListJSON',
-                'method'      => 'GET',
-                'description' => 'Get all measurements in json format. Optional query: &station_id={id}&pollutant_id={id} // &station_id={id} // &id={id} // &fake=true'
-            ],
-            
+            ],            
             [
                 'resource'    => 'Api',
                 'url'         => '?page=Api',
                 'method'      => 'GET',
-                'example'     => '?page=Api&postaja=307&polutant=1&tipPodatka=0&vrijemeOd=26.05.2024&vrijemeDo=06.06.2024',
-                'description' => 'Retreive data from the API. Example: ?page=Api&postaja=307&polutant=1&tipPodatka=0&vrijemeOd=26.05.2024&vrijemeDo=06.06.2024'
+                'description' => 'Retreive data from the API. Example: ?page=Api&station=307&pollutant=1&type=0&fromDate=26.05.2024&toDate=06.06.2024'
             ],
-            
             [
                 'resource'    => 'Logout',
                 'url'         => '?page=Logout',

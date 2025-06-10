@@ -7,7 +7,6 @@ abstract class AbstractPage {
     public function __construct() 
     {
         $this->db = AppCore::getDB();
-        header('Content-Type: application/json');
         $this->execute();
         $this->show();
     }
@@ -17,7 +16,6 @@ abstract class AbstractPage {
         $data = $this->data;
         include_once('system/view/' . $template . '.tpl.php');
     }
-
     
     abstract public function execute();
 

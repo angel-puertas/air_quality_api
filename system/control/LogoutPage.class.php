@@ -5,6 +5,8 @@ class LogoutPage extends AbstractPage
 {
     public function execute()
     {
+        header('Content-Type: application/json');
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             http_response_code(405); // Method Not Allowed
             echo json_encode(['success' => false, 'message' => 'Method must be POST'], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);

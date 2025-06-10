@@ -6,6 +6,8 @@ class PollutantUpdatePage extends AbstractPage
 {
     public function execute() 
     {
+        header('Content-Type: application/json');
+
         $this->requireAuth();
 
         if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {

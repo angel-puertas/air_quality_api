@@ -6,6 +6,8 @@ class MeasurementListPage extends AbstractPage
 {
     public function execute()
     {
+        header('Content-Type: application/json');
+
         $model = new Measurement($this->db);
 
         if (isset($_GET['station_id']) && isset($_GET['pollutant_id'])) {
