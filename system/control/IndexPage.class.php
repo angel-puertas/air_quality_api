@@ -22,6 +22,12 @@ class IndexPage extends AbstractPage {
                 'description' => 'Authenticate user and start session.'
             ],
             [
+                'resource'    => 'Logout',
+                'url'         => '?page=Logout',
+                'method'      => 'POST',
+                'description' => 'Logout the current user.'
+            ],
+            [
                 'resource'    => 'Stations - List',
                 'url'         => '?page=StationList',
                 'method'      => 'GET',
@@ -63,7 +69,7 @@ class IndexPage extends AbstractPage {
                 'resource'    => 'Pollutants - View',
                 'url'         => '?page=PollutantView&id={id}',
                 'method'      => 'GET',
-                'description' => 'Get data for a single pollutant by ID. Response in JSON format.'
+                'description' => 'Get data for a single pollutant by ID.'
             ],
             [
                 'resource'    => 'Pollutants - Create',
@@ -95,14 +101,8 @@ class IndexPage extends AbstractPage {
                 'resource'    => 'Api',
                 'url'         => '?page=Api',
                 'method'      => 'GET',
-                'description' => 'Retreive data from the API. Example: ?page=Api&station=307&pollutant=1&type=0&fromDate=26.05.2024&toDate=06.06.2024'
-            ],
-            [
-                'resource'    => 'Logout',
-                'url'         => '?page=Logout',
-                'method'      => 'POST',
-                'description' => 'Logout the current user.'
-            ],
+                'description' => 'Get data from external API and store into database. Example: ?page=Api&station=307&pollutant=1&type=0&fromDate=26.05.2024&toDate=06.06.2024'
+            ]
         ];
 
         $this->data = 
