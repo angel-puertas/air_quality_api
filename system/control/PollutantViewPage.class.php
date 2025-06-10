@@ -9,10 +9,13 @@ class PollutantViewPage extends AbstractPage
         $model = new Pollutant($this->db);
         $id = $_GET['id'] ?? null;
         $pollutant =  $model->getById($id);
+        //$method = $_GET['method'];
         
         header('Content-Type: application/json');
         echo json_encode($pollutant, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         exit;
+
+        
     }
 }
 ?>

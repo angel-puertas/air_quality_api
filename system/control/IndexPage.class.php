@@ -9,12 +9,12 @@ class IndexPage extends AbstractPage {
         $resources = [
             [
                 'resource'    => 'Register',
-                'url'         => '?page=Register',
+                'url'         => '?page=Register&username=NAME&password=PSWD6&confirm_password=PSWD',
                 'method'      => 'POST',
                 'description' => 'Register a new user.'
             ],
             [
-                'resource'    => 'Login',
+                'resource'    => 'Login&username=NAME&password=PSWD',
                 'url'         => '?page=Login',
                 'method'      => 'POST',
                 'description' => 'Authenticate user and start session.'
@@ -33,15 +33,15 @@ class IndexPage extends AbstractPage {
             ],
             [
                 'resource'    => 'Stations - Create',
-                'url'         => '?page=StationCreate',
+                'url'         => '?page=StationCreate&name={name}',
                 'method'      => 'POST',
-                'description' => 'Create a new station. Generates a simple html form for CREATING a station.'
+                'description' => 'Create a new station.'
             ],
             [
                 'resource'    => 'Stations - Update',
-                'url'         => '?page=StationUpdate',
+                'url'         => '?page=StationUpdate&id={id}&name={name}',
                 'method'      => 'PUT',
-                'description' => 'Update a station by ID. Generates a simple html form for UPDATING a station.'
+                'description' => 'Update a station by ID.'
             ],
             [
                 'resource'    => 'Stations - Delete',
@@ -63,15 +63,15 @@ class IndexPage extends AbstractPage {
             ],
             [
                 'resource'    => 'Pollutants - Create',
-                'url'         => '?page=PollutantCreate',
+                'url'         => '?page=PollutantCreate&name={name}',
                 'method'      => 'POST',
-                'description' => 'Create a new pollutant. Generates a simple html form for CREATING a pollutant.'
+                'description' => 'Create a new pollutant.'
             ],
             [
                 'resource'    => 'Pollutants - Update',
-                'url'         => '?page=PollutantUpdate',
+                'url'         => '?page=PollutantUpdate&id={id}&name={name}',
                 'method'      => 'PUT',
-                'description' => 'Update a pollutant by ID. Generates a simple html form for UPDATING a pollutant.'
+                'description' => 'Update a pollutant by ID.'
             ],
             [
                 'resource'    => 'Pollutants - Delete',
@@ -108,7 +108,8 @@ class IndexPage extends AbstractPage {
             ],
         ];
 
-        $this->data = [
+        $this->data = 
+        [
             'resources' => $resources
         ];
     }

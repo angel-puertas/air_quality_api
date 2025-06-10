@@ -7,30 +7,26 @@ class StationUpdatePage extends AbstractPage
     protected $templateName = 'station_update';
     public function execute() 
     {
+        $this->requireAuth();
         $model = new Station($this->db);
-        
-        if ($_SERVER['REQUEST_METHOD'] === 'PUT') 
-        {
-            header('Content-Type: application/json');
-            $input = json_decode(file_get_contents("php://input"), true);
-            $id = $_GET['id'] ?? null;
-            if ($id && isset($input['name'])) {
-                $ok = $model->update($id, $input['name']);
-                if ($ok) 
-                {
-                    $this->data = ['success' => true];
-                } 
-                else 
-                {
-                    $this->data = ['error' => 'There is no station with this ID'];
-                }
+
+        $id = $_GET['id'] ?? null;
+        $name = $_GET['name'] ?? null;
+
+        if ($id && $name) {
+            $ok = $model->update($id, $name);
+            if ($ok) 
+            {
+                $this->data = ['success' => true, 'message' => 'Station updated!'];
             } 
             else 
             {
-                $this->data = ['error' => 'Invalid input'];
+                $this->data = ['success' => false, 'message' => 'There is no station with this ID'];
             }
-            echo json_encode($this->data);
-            exit;
+        } 
+        else 
+        {
+            $this->data = ['success' => false, 'message' => 'Missing id or name'];
         }
     }
 }

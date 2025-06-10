@@ -37,6 +37,7 @@ class Pollutant extends AbstractModel
 
     public function delete($id)
     {
+        if (!$id) return false;
         $stmt = $this->db->prepare("DELETE FROM pollutants WHERE id = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();

@@ -6,7 +6,48 @@ class RegisterPage extends AbstractPage
 {
     protected $templateName = 'register';
     
-    public function execute() {       
+    public function execute() {   
+        // Check if the user is already logged in
+        session_start();
+        if (isset($_SESSION['user_id'])) 
+        {
+            $this->data['general_error'] = 'You are already logged in.';
+            return;
+        }
+
+        // Allow registration via GET parameters for testing/demo purposes
+        $username = $_GET['username'] ?? null;
+        $password = $_GET['password'] ?? null;
+        $confirmPassword = $_GET['confirm_password'] ?? null;
+
+        if ($username && $password && $confirmPassword) {
+            $errors = $this->validateRegistrationInput($username, $password, $confirmPassword);
+
+            $userModel = new User($this->db);
+            if ($userModel->getByUsername($username)) {
+                $errors['username'] = 'Username already exists';
+            }
+
+            if (!empty($errors)) {
+                $this->data = ['success' => false, 'errors' => $errors];
+                return;
+            }
+
+            $userId = $userModel->create($username, $password);
+
+            if ($userId) {
+                $this->data = [
+                    'success' => true,
+                    'user_id' => $userId,
+                    'message' => 'Registration successful'
+                ];
+            } else {
+                $this->data = ['success' => false, 'message' => 'Registration failed'];
+            }
+            return;
+        }
+        
+        // Show form for GET without params
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $this->showRegisterForm();
             return;
@@ -162,4 +203,3 @@ class RegisterPage extends AbstractPage
         return $errors;
     }
 }
-?>

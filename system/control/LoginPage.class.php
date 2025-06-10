@@ -5,110 +5,87 @@ require_once('system/model/User.class.php');
 class LoginPage extends AbstractPage 
 {
     protected $templateName = 'login';
-    
-    public function execute() {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $this->showLoginForm();
+
+    public function execute() 
+    {   
+        session_start();
+        if (isset($_SESSION['user_id'])) 
+        {
+            $this->data['general_error'] = 'You are already logged in.';
             return;
         }
-        
+        $username = $_GET['username'] ?? null;
+        $password = $_GET['password'] ?? null;
+
+        if ($username && $password) {
+            $userModel = new User($this->db);
+            $user = $userModel->getByUsername($username);
+
+            if ($user && password_verify($password, $user['password'])) 
+            {
+                $_SESSION['user_id'] = $user['id'];
+                $this->data = 
+                [
+                    'success' => true,
+                    'message' => 'Login successful',
+                    //header('Location: index.php'), 
+                ];
+            } 
+            else 
+            {
+                $this->data = 
+                [
+                    'success' => false,
+                    'error' => 'Invalid username or password'
+                ];
+            }
+            return;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') 
+        {
+            return;
+        }
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             http_response_code(405);
             $this->data = ['error' => 'Method Not Allowed'];
             return;
         }
 
-        // Handle form submission or JSON API request
         header('Content-Type: application/json');
         $this->handleLogin();
     }
-    
-    private function showLoginForm($errors = []) {
-        $this->data = [
-            'title' => 'Login',
-            'method' => 'POST',
-            'action' => $_SERVER['REQUEST_URI'],
-            'submit_text' => 'Login',
-            'fields' => [
-                [
-                    'name' => 'username',
-                    'label' => 'Username',
-                    'type' => 'text',
-                    'required' => true,
-                    'error' => $errors['username'] ?? null
-                ],
-                [
-                    'name' => 'password',
-                    'label' => 'Password',
-                    'type' => 'password',
-                    'required' => true,
-                    'error' => $errors['password'] ?? null
-                ]
-            ]
-        ];
-        
-        if (isset($errors['general'])) {
-            $this->data['general_error'] = $errors['general'];
-        }
-    }
-    
-    private function handleLogin() {
+
+    private function handleLogin() 
+    {
         $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
         $isJsonRequest = strpos($contentType, 'application/json') !== false;
-        
+
         if ($isJsonRequest) {
             $input = json_decode(file_get_contents("php://input"), true);
-            $username = $input['username'] ?? '';
-            $password = $input['password'] ?? '';
+            $formData = $input;
         } else {
-            $username = $_POST['username'] ?? '';
-            $password = $_POST['password'] ?? '';
+            $formData = $_POST;
         }
 
-        $errors = [];
-        
-        if (!$username || !$password) {
-            if ($isJsonRequest) {
-                http_response_code(400);
-                $this->data = ['error' => 'Username and password are required'];
-                return;
-            } else {
-                $errors['general'] = 'Username and password are required';
-                $this->showLoginForm($errors);
-                return;
-            }
-        }
+        $username = trim($formData['username'] ?? '');
+        $password = $formData['password'] ?? '';
 
         $userModel = new User($this->db);
         $user = $userModel->getByUsername($username);
 
-        if (!$user || !password_verify($password, $user['password'])) {
-            if ($isJsonRequest) {
-                http_response_code(401);
-                $this->data = ['error' => 'Invalid credentials'];
-                return;
-            } else {
-                $errors['general'] = 'Invalid username or password';
-                $this->showLoginForm($errors);
-                return;
-            }
-        }
-
-        // Successful login
-        session_start();
-        $_SESSION['user_id'] = $user['id'];
-        
-        if ($isJsonRequest) {
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['user_id'] = $user['id'];
             $this->data = [
                 'success' => true,
-                'user_id' => $user['id'],
                 'message' => 'Login successful'
             ];
         } else {
-            header('Location: index.php');
-            exit;
+            $this->data = [
+                'success' => false,
+                'error' => 'Invalid username or password'
+            ];
         }
     }
 }
-//
-?>

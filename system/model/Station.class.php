@@ -36,6 +36,7 @@ class Station extends AbstractModel {
 
     public function delete($id) 
     {
+        if (!$id) return false;
         $stmt = $this->db->prepare("DELETE FROM stations WHERE id = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();

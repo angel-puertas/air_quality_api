@@ -7,16 +7,24 @@ class PollutantDeletePage extends AbstractPage
     protected $templateName = 'pollutant_delete';
     public function execute() 
     {
-        $model = new Pollutant($this->db);
-        $id = $_GET['id'] ?? null;
-        $ok = $model->delete($id);
-        if ($ok) 
-        {
-            $this->data = ['success' => true, 'message' => 'Pollutant is deleted!'];
-        } 
+        $this->requireAuth(); 
+
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_SERVER['REQUEST_METHOD'] === 'DELETE') {
+            $model = new Pollutant($this->db);
+            $id = $_GET['id'] ?? null;
+            $ok = $model->delete($id);
+            if ($ok) 
+            {
+                $this->data = ['success' => true, 'message' => 'Pollutant is deleted!'];
+            } 
+            else 
+            {
+                $this->data = ['success' => false, 'message' => 'There is no pollutant with this ID'];
+            }
+        }
         else 
         {
-            $this->data = ['success' => false, 'message' => 'There is no pollutant with this ID'];
+            $this->data = ['error' => 'Invalid request method'];
         }
     }
 }

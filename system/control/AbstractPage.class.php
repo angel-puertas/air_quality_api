@@ -6,9 +6,11 @@ abstract class AbstractPage {
 
     public function __construct() 
     {
+        //$this->execute();
         $this->db = AppCore::getDB();
         //$this->requireAuth(); 
-        // this cannot be called here because it will block the login and register page
+        // this cannot be called here because it will block 
+        // the login and register page which doesnt make sense
         $this->execute();
         $this->show();
     }

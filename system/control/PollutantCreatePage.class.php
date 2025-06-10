@@ -7,22 +7,19 @@ class PollutantCreatePage extends AbstractPage
     protected $templateName = 'pollutant_create';
     public function execute() 
     {
+        $this->requireAuth();
         $model = new Pollutant($this->db);
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+        $name = $_GET['name'] ?? null;
+
+        if ($name) 
         {
-            header('Content-Type: application/json');
-            $input = json_decode(file_get_contents("php://input"), true);
-            if (isset($input['name'])) {
-                $id = $model->create($input['name']);
-                $this->data = ['success' => true, 'id' => $id];
-            } 
-            else 
-            {
-                $this->data = ['error' => 'Missing pollutant name'];
-            }
-            echo json_encode($this->data);
-            exit;
+            $id = $model->create($name);
+            $this->data = ['success' => true, 'id' => $id, 'message' => 'Pollutant created!'];
+        } 
+        else 
+        {
+            $this->data = ['success' => false, 'message' => 'Missing pollutant name'];
         }
     }
 }
