@@ -63,7 +63,7 @@ $resources = $data['resources'] ?? [];
                 <td class="method-<?= htmlspecialchars($resource['method']) ?>">
                     <?= htmlspecialchars($resource['method']) ?>
                 </td>
-                <td class="desc"><?= htmlspecialchars($resource['description']) ?></td>
+                <td class="desc"><?= $resource['description'] ?></td>
             </tr>
         <?php } ?>
     </table>
