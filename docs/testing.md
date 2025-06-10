@@ -1,6 +1,7 @@
 # Tests
 
 ## Unit Tests
+✅ AppCoreTest
 ✅ StationViewPageTest::testExecuteWithValidId
 
 ## Testing Report

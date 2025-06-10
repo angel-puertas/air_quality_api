@@ -7,6 +7,8 @@ class StationCreatePage extends AbstractPage
     protected $templateName = 'station_create';
     public function execute() 
     {
+        // $this->requireAuth();
+
         $model = new Station($this->db);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
