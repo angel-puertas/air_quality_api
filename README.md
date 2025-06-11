@@ -3,8 +3,8 @@
 ## Description
 This API provides access to air quality monitoring data and management endpoints for stations, pollutants, and measurements.
 
-v1.0 requires GET, POST, PUT, and DELETE methods. For demonstration it requires an HTTP client like Postman.
--- to speed up the process of testing 1.0 version, you can use 'PHP API.postman_collection.json' (from 'docs' directory) to insert into Postman.
+v1.0 requires GET, POST, PUT, and DELETE methods. For demonstration it requires an HTTP client like Postman.  -- to speed up the process of testing 1.0 version, you can use 'PHP API.postman_collection.json' (from 'docs' directory) to insert into Postman.
+
 v1.1 only supports GET method to be able to be used through a web browser.
 
 ## Quick Start
