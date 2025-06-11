@@ -2,5 +2,5 @@
 $dbHost = 'localhost';
 $dbUser = 'root';
 $dbPassword = '';
-$dbName = 'airQualityDBTest'; 
+$dbName = 'airQualityDB'; 
 ?>
