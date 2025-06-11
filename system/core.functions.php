@@ -9,5 +9,4 @@ function autoloadUtil($className) {
 }
 
 spl_autoload_register('autoloadUtil');
-//
 ?>

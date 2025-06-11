@@ -8,8 +8,7 @@ class PollutantListPage extends AbstractPage
     public function execute() 
     {
         $model = new Pollutant($this->db);
-        $this->data = ['pollutants' => $model->getAll()];
-
+        $this->data = $model->getAll();
     }
 }
 ?>

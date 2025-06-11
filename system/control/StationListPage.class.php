@@ -7,15 +7,8 @@ class StationListPage extends AbstractPage
     protected $templateName = 'json';
     public function execute() 
     {
-        //echo "StationListPage reached!"; //for testing purposes
         $model = new Station($this->db);
-        $this->data = ['stations' => $model->getAll()];
-    
-        // header('Content-Type: application/json');
-        // echo json_encode($this->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        // exit;
+        $this->data = $model->getAll();
     }
 }
-
-$page = new StationListPage();
 ?>

@@ -7,30 +7,32 @@ class StationDeletePage extends AbstractPage
     protected $templateName = 'json';
     public function execute() 
     {
-        $this->requireAuth(); 
-        
-        if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_SERVER['REQUEST_METHOD'] === 'DELETE') 
+        $this->requireAuth();
+        $model = new Station($this->db);
+
+        $id = $_GET['id'] ?? null;
+        if (!$id)
         {
-            $model = new Station($this->db);
-            $id = $_GET['id'] ?? null;
-            $ok = $model->delete($id);
-            if ($ok) 
-            {
-                $this->data = ['success' => true, 'message' => 'Station is deleted!'];
-            } 
-            else 
-            {
-                $this->data = ['success' => false, 'message' => 'There is no station with this ID'];
-            }
-        } 
-        else 
-        {
-            $this->data = ['error' => 'Invalid request method'];
+            $this->data = ['success' => false, 'message' => 'Missing station ID'];
+            return;
         }
 
-        // header('Content-Type: application/json');
-        // echo json_encode($this->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        // exit;
+        // To return deleted station
+        $station = $model->getById($id);
+        if (!$station)
+        {
+            $this->data = ['success' => false, 'message' => 'There is no station with this ID'];
+            return;
+        }
+
+        $ok = $model->delete($id);
+        if (!$ok) 
+        {
+            $this->data = ['success' => false, 'message' => 'There is no station with this ID'];
+            return;
+        }
+
+        $this->data = ['success' => true, 'message' => 'Station deleted', 'station' => $station];
     }
 }
 ?>

@@ -11,20 +11,20 @@ class StationCreatePage extends AbstractPage
         $model = new Station($this->db);
 
         $name = $_GET['name'] ?? null;
-
-        if ($name) 
-        {
-            $id = $model->create($name);
-            $this->data = ['success' => true, 'id' => $id, 'message' => 'Station created!'];
-        } 
-        else 
+        if (!$name)
         {
             $this->data = ['success' => false, 'message' => 'Missing station name'];
+            return;
         }
-        
-        // header('Content-Type: application/json');
-        // echo json_encode($this->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        // exit;
+
+        $id = $model->create($name);
+        if (!$id)
+        {
+            $this->data = ['success' => false, 'message' => 'Station creation failed'];
+            return;
+        }
+
+        $this->data = ['success' => true, 'message' => 'Station created', 'station' => ['id' => $id, 'name' => $name]];
     }
 }
 ?>

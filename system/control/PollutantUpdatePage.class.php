@@ -12,26 +12,20 @@ class PollutantUpdatePage extends AbstractPage
 
         $id = $_GET['id'] ?? null;
         $name = $_GET['name'] ?? null;
-
-        if ($id && $name) {
-            $ok = $model->update($id, $name);
-            if ($ok) 
-            {
-                $this->data = ['success' => true, 'message' => 'Pollutant updated!'];
-            } 
-            else 
-            {
-                $this->data = ['success' => false, 'message' => 'There is no pollutant with this ID'];
-            }
-        } 
-        else 
+        if (!$id || !$name)
         {
             $this->data = ['success' => false, 'message' => 'Missing id or name'];
+            return;
         }
 
-        // header('Content-Type: application/json');
-        // echo json_encode($this->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        // exit;
+        $ok = $model->update($id, $name);
+        if (!$ok) 
+        {
+            $this->data = ['success' => false, 'message' => 'There is no pollutant with this ID'];
+            return;
+        }
+
+        $this->data = ['success' => true, 'message' => 'Pollutant updated', 'pollutant' => ['id' => $id, 'name' => $name]];
     }
 }
 ?>

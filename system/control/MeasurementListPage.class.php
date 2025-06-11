@@ -11,31 +11,24 @@ class MeasurementListPage extends AbstractPage
 
         if (isset($_GET['station_id']) && isset($_GET['pollutant_id'])) 
         {
-            $this->data = ['measurements' => $model->getByStationAndPollutant($_GET['station_id'], $_GET['pollutant_id'])];
+            $this->data = $model->getByStationAndPollutant($_GET['station_id'], $_GET['pollutant_id']);
         } 
         elseif (isset($_GET['station_id'])) 
         {
-            $this->data = ['measurements' => $model->getByStation($_GET['station_id'])];
+            $this->data = $model->getByStation($_GET['station_id']);
         }
         elseif (isset($_GET['id'])) 
         {
-            $this->data = ['measurement' => $model->getById($_GET['id'])];
+            $this->data = $model->getById($_GET['id']);
+        }
+        elseif (isset($_GET['fake']))
+        {
+            $this->data = $model->fakeStation();
         } 
         else 
         {
-            //fake test
-            if (isset($_GET['fake'])) {
-                $this->data = ['measurements' => $model->fakeStation()];
-            } 
-            else 
-            {
-                $this->data = ['measurements' => $model->getAll()];
-            }
+            $this->data = $model->getAll();
         }
-
-        // header('Content-Type: application/json');
-        // echo json_encode($this->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        // exit;
     }
 }
 ?>

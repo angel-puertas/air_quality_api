@@ -2,7 +2,7 @@
 class AppCore {
     protected static $dbObj = null;
 
-    function __construct($runRouter = true) //idk how it actually works but it works
+    function __construct($runRouter = true)
     {
         $this->initDB();
 
@@ -19,20 +19,25 @@ class AppCore {
         require_once('config.inc.php');
 
         require_once('model/MySQLiDatabase.class.php');
-        try {
+        try 
+        {
             self::$dbObj = new MySQLiDatabase($dbHost, $dbUser, $dbPassword, $dbName);
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo "<h2>Database connection failed in AppCore::initDB():</h2>";
             echo "<pre>" . $e->getMessage() . "</pre>";
             self::$dbObj = null;
         }
     }
 
-    public static final function getDB() {
+    public static final function getDB()
+    {
         return self::$dbObj;
     }
 
-    public static function handleException($e) {
+    public static function handleException($e)
+    {
         echo "<h2>Uncaught Exception:</h2>";
         echo "<b>Message:</b> " . $e->getMessage() . "<br>";
         echo "<b>File:</b> " . $e->getFile() . "<br>";

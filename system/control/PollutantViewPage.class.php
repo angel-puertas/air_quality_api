@@ -8,14 +8,22 @@ class PollutantViewPage extends AbstractPage
     public function execute() 
     {
         $model = new Pollutant($this->db);
+        
         $id = $_GET['id'] ?? null;
+        if (!$id) 
+        {
+            $this->data = ['success' => false, 'message' => 'Missing pollutant ID'];
+            return;
+        }
+
         $pollutant =  $model->getById($id);
-        //$method = $_GET['method'];
-        
-        header('Content-Type: application/json');
-        echo json_encode($pollutant, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        exit;
-        
+        if (!$pollutant)
+        {
+            $this->data = ['success' => false, 'message' => 'There is no pollutant with this ID'];
+            return;
+        }
+
+        $this->data = $pollutant;
     }
 }
 ?>

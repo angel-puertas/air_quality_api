@@ -8,11 +8,22 @@ class StationViewPage extends AbstractPage
     public function execute() 
     {
         $model = new Station($this->db);
+
         $id = $_GET['id'] ?? null;
+        if (!$id) 
+        {
+            $this->data = ['success' => false, 'message' => 'Missing station ID'];
+            return;
+        }
+
         $station = $model->getById($id);
-        header('Content-Type: application/json');
-        echo json_encode($station, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        exit;
+        if (!$station)
+        {
+            $this->data = ['success' => false, 'message' => 'There is no station with this ID'];
+            return;
+        }
+
+        $this->data = $station;
     }
 }
 ?>

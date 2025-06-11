@@ -7,29 +7,32 @@ class PollutantDeletePage extends AbstractPage
     protected $templateName = 'json';
     public function execute() 
     {
-        $this->requireAuth(); 
+        $this->requireAuth();
+        $model = new Pollutant($this->db);
 
-        if ($_SERVER['REQUEST_METHOD'] === 'GET' || $_SERVER['REQUEST_METHOD'] === 'DELETE') {
-            $model = new Pollutant($this->db);
-            $id = $_GET['id'] ?? null;
-            $ok = $model->delete($id);
-            if ($ok) 
-            {
-                $this->data = ['success' => true, 'message' => 'Pollutant is deleted!'];
-            } 
-            else 
-            {
-                $this->data = ['success' => false, 'message' => 'There is no pollutant with this ID'];
-            }
-        }
-        else 
+        $id = $_GET['id'] ?? null;
+        if (!$id)
         {
-            $this->data = ['error' => 'Invalid request method'];
+            $this->data = ['success' => false, 'message' => 'Missing id'];
+            return;
         }
 
-        // header('Content-Type: application/json');
-        // echo json_encode($this->data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        // exit;
+        // To return deleted pollutant
+        $pollutant = $model->getById($id);
+        if (!$pollutant)
+        {
+            $this->data = ['success' => false, 'message' => 'There is no pollutant with this ID'];
+            return;
+        }
+
+        $ok = $model->delete($id);
+        if (!$ok) 
+        {
+            $this->data = ['success' => false, 'message' => 'Pollutant deletion failed'];
+            return;
+        }
+
+        $this->data = ['success' => true, 'message' => 'Pollutant deleted', 'pollutant' => $pollutant];
     }
 }
 ?>

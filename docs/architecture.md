@@ -7,24 +7,25 @@ The application follows a traditional MVC architecture with the following main c
 
 ```
 air_quality_api/
-├── README.md               # Project documentation
-├── composer.json           # Project dependencies configuration
-├── composer.lock           # Locked dependency versions
-├── docs/                   # Documentation
-├── .htaccess               # Apache configuration
-├── index.php               # Main entry point
-├── install.php             # Installation script
-├── system/                 # Core application code
-│   ├── AppCore.class.php   # Core application class
-│   ├── config.inc.php      # Configuration settings
-│   ├── core.functions.php  # Helper functions
-│   ├── options.inc.php     # Application options
-│   ├── util/               # Utility scripts
-│   ├── control/            # Controller classes
-│   ├── model/              # Model classes
-│   └── view/               # View templates
-├── tests/                  # Test files
-└── vendor/                 # Composer dependencies
+├── README.md               
+├── composer.json           
+├── composer.lock           
+├── docs/                   
+├── .htaccess               
+├── index.php               
+├── install.php             
+├── system/                 
+│   ├── AppCore.class.php   
+│   ├── config.inc.php      
+│   ├── core.functions.php  
+│   ├── options.inc.php     
+│   ├── util/               
+│   ├── control/            
+│   ├── model/              
+│   └── view/               
+├── tests/
+│   └── unit/               
+└── vendor/                 
 ```
 
 ### 2. Core Components
@@ -36,12 +37,12 @@ air_quality_api/
 - Inherit from `AbstractPage` class
 - Handle HTTP requests and responses
 - Main controllers:
-  - `ApiPage`: Handles air quality data API requests
+  - `ApiPage`: Handles requests to external API
   - `IndexPage`: Main page with resource listings
   - `Station*Page`: Station management
   - `Pollutant*Page`: Pollutant management
   - `Measurement*Page`: Measurement data handling
-  - Authentication pages (Login, Register, Logout)
+  -  Authentication pages (Login, Register, Logout)
 
 #### 2.3 Models
 - Inherit from `AbstractModel` class
@@ -50,7 +51,8 @@ air_quality_api/
   - `Station`: Manages air quality stations
   - `Pollutant`: Manages pollutant types
   - `Measurement`: Handles air quality measurements
-  - `User`: User authentication and authorization
+  - `User`: Manages user
+  - `MySqliDatabase`: Manages database connection and queries
 
 #### 2.4 Views
 - They exist.

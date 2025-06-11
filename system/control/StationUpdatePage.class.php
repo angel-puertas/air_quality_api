@@ -12,22 +12,20 @@ class StationUpdatePage extends AbstractPage
 
         $id = $_GET['id'] ?? null;
         $name = $_GET['name'] ?? null;
-
-        if ($id && $name) {
-            $ok = $model->update($id, $name);
-            if ($ok) 
-            {
-                $this->data = ['success' => true, 'message' => 'Station updated!'];
-            } 
-            else 
-            {
-                $this->data = ['success' => false, 'message' => 'There is no station with this ID'];
-            }
-        } 
-        else 
+        if (!$id || !$name)
         {
             $this->data = ['success' => false, 'message' => 'Missing id or name'];
+            return;
         }
+
+        $ok = $model->update($id, $name);
+        if (!$ok) 
+        {
+            $this->data = ['success' => false, 'message' => 'There is no station with this ID'];
+            return;
+        }
+
+        $this->data = ['success' => true, 'message' => 'Station updated', 'station' => ['id' => $id, 'name' => $name]];
     }
 }
 ?>

@@ -11,65 +11,18 @@ class RegisterPage extends AbstractPage
         session_start();
         if (isset($_SESSION['user_id'])) 
         {
-            $this->data = ['error' => 'You are already logged in.'];
+            $this->data = ['success' => false, 'message' => 'You are already logged in.'];
             return;
         }
 
         $username = $_GET['username'] ?? null;
         $password = $_GET['password'] ?? null;
         $confirmPassword = $_GET['confirm_password'] ?? null;
-
-        if ($username && $password && $confirmPassword) 
+        if (!$username || !$password || !$confirmPassword) 
         {
-            $errors = $this->validateRegistrationInput($username, $password, $confirmPassword);
-
-            $userModel = new User($this->db);
-            if ($userModel->getByUsername($username)) 
-            {
-                $errors['username'] = 'Username already exists';
-            }
-
-            if (!empty($errors)) 
-            {
-                $this->data = ['success' => false, 'errors' => $errors];
-                return;
-            }
-
-            $userId = $userModel->create($username, $password);
-
-            if ($userId) 
-            {
-                $this->data = [
-                    'success' => true,
-                    'user_id' => $userId,
-                    'message' => 'Registration successful'
-                ];
-            } 
-            else 
-            {
-                $this->data = ['success' => false, 'message' => 'Registration failed'];
-            }
+            $this->data = ['success' => false, 'message' => 'Missing username, password or confirm password'];
             return;
         }
-
-
-        //
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') 
-        {
-            $this->data = ['error' => 'Method Not Allowed'];
-            http_response_code(405);
-            return;
-        }
-
-        $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
-        $isJsonRequest = strpos($contentType, 'application/json') !== false;
-        $formData = $isJsonRequest
-            ? json_decode(file_get_contents("php://input"), true)
-            : $_POST;
-
-        $username = trim($formData['username'] ?? '');
-        $password = $formData['password'] ?? '';
-        $confirmPassword = $formData['confirm_password'] ?? '';
 
         $errors = $this->validateRegistrationInput($username, $password, $confirmPassword);
 
@@ -81,26 +34,33 @@ class RegisterPage extends AbstractPage
 
         if (!empty($errors)) 
         {
-            http_response_code(400);
-            $this->data = ['success' => false, 'errors' => $errors];
+            $this->data = [
+                'success' => false,
+                'message' => 'Registration failed',
+                'errors' => $errors
+            ];
             return;
         }
 
         $userId = $userModel->create($username, $password);
-
-        if ($userId) 
+        if (!$userId) 
         {
-            $this->data = 
-            [
-                'success' => true,
-                'user_id' => $userId,
-                'message' => 'Registration successful'
+            $this->data = [
+                'success' => false,
+                'message' => 'Registration failed'
             ];
-        } 
-        else 
-        {
-            $this->data = ['success' => false, 'message' => 'Registration failed'];
+            return;
         }
+
+        $this->data = [
+            'success' => true,
+            'message' => 'Registration successful',
+            'data' => [
+                'user_id' => $userId,
+                'username' => $username
+            ]
+        ];
+        return;
     }
 
     private function validateRegistrationInput($username, $password, $confirmPassword) 

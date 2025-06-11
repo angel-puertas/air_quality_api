@@ -32,6 +32,12 @@ class MySQLiDatabase {
         return $stmt;
     }
 
+    public function sendQuery($query) {
+        $stmt = $this->prepare($query);
+        $stmt->execute();
+        $stmt->close();
+    }
+
     // public function execute($stmt, $types = "", $params = []) {
     //     if (!empty($params)) {
     //         $stmt->bind_param($types, ...$params);
@@ -41,6 +47,10 @@ class MySQLiDatabase {
     //     }
     //     return $stmt;
     // }
+
+    public function escape($value) {
+        return $this->MySQLi->real_escape_string($value);
+    }
 
     public function installDatabase() {
         $this->sendQuery("
@@ -79,6 +89,5 @@ class MySQLiDatabase {
             )
         ");
     }
-    
 }
 ?>

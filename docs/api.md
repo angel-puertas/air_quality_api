@@ -1,24 +1,50 @@
 # Air Quality API Documentation
 
-## Overview
-This API provides access to air quality monitoring data and management endpoints for stations, pollutants, and measurements.
-
 ## Base URL
 All endpoints are accessed through the base URL:
 ```
 http://localhost/air_quality_api/?page=[endpoint]
 ```
 
-## Authentication
+## Authentication Endpoints
 
 ### Register User
 ```http
-POST /air_quality_api/?page=Register
+POST /air_quality_api/?page=Register&username=[username]&password=[password]&confirm_password=[confirm_password]
+```
+
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `username` | string | Yes | Username |
+| `password` | string | Yes | Password |
+| `confirm_password` | string | Yes | Confirm Password |
+
+#### Response Format
+```json
+{
+    "success": boolean,
+    "message": string
+}
 ```
 
 ### Login
 ```http
-POST /air_quality_api/?page=Login
+POST /air_quality_api/?page=Login&username=[username]&password=[password]
+```
+
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `username` | string | Yes | Username |
+| `password` | string | Yes | Password |
+
+#### Response Format
+```json
+{
+    "success": boolean,
+    "message": string
+}
 ```
 
 ### Logout
@@ -26,116 +52,255 @@ POST /air_quality_api/?page=Login
 POST /air_quality_api/?page=Logout
 ```
 
-## Station Management
-
-### Create Station
-```http
-POST /air_quality_api/?page=StationCreate
+#### Response Format
+```json
+{
+    "success": boolean,
+    "message": string
+}
 ```
 
-### Parameters
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `name` | string | Yes | Name of the station |
+## Station Endpoints
 
-### Update Station
+### List Stations
 ```http
-PUT /?page=StationUpdate&id=1
+GET /?page=StationList
 ```
 
-### Delete Station
-```http
-GET /?page=StationDelete&id=1
+#### Response Format
+```json
+[
+    {
+        "id": integer,
+        "name": string,
+    }
+]
 ```
 
 ### View Station
 ```http
-GET /?page=StationView&id=1
+GET /?page=StationView&id=[id]
 ```
 
-### Response Format
+#### Response Format
 ```json
 {
-    "station": {
-        "id": 1,
-        "name": "Station Name",
+    "id": integer,
+    "name": string,
+}
+```
+
+### Create Station
+```http
+GET /?page=StationCreate&name=[name]
+```
+
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `name` | string | Yes | Station name |
+
+#### Response Format
+```json
+{
+    "success": boolean,
+    "message": string,
+    "station":
+    {
+        "id": integer,
+        "name": string,
     }
 }
 ```
 
-## Pollutant Management
-
-### Create Pollutant
+### Update Station
 ```http
-POST /?page=PollutantCreate
+GET /?page=StationUpdate&id=[id]&name=[name]
 ```
 
-### Parameters
+#### Parameters
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `name` | string | Yes | Name of the pollutant |
+| `id` | integer | Yes | Station ID |
+| `name` | string | Yes | Station name |
 
-### Update Pollutant
-```http
-PUT /?page=PollutantUpdate&id=1
+#### Response Format
+```json
+{
+    "success": boolean,
+    "message": string,
+    "station":
+    {
+        "id": integer,
+        "name": string,
+    }
+}
 ```
 
-### Delete Pollutant
+### Delete Station
 ```http
-GET /?page=PollutantDelete&id=1
+GET /?page=StationDelete&id=[id]
 ```
 
-### View Pollutant
-```http
-GET /?page=PollutantView&id=1
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `id` | integer | Yes | Station ID |
+
+#### Response Format
+```json
+{
+    "success": boolean,
+    "message": string,
+    "station":
+    {
+        "id": integer,
+        "name": string,
+    }
+}
 ```
+
+## Pollutant Endpoints
 
 ### List Pollutants
 ```http
 GET /?page=PollutantList
 ```
 
-### Response Format
+#### Response Format
+```json
+[
+    {
+        "id": integer,
+        "name": string,
+    }
+]
+```
+
+### View Pollutant
+```http
+GET /?page=PollutantView&id=[id]
+```
+
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `id` | integer | Yes | Pollutant ID |
+
+#### Response Format
 ```json
 {
-    "pollutant": {
-        "id": 1,
-        "name": "Pollutant Name",
+    "id": integer,
+    "name": string,
+}
+```
+
+### Create Pollutant
+```http
+GET /?page=PollutantCreate&name=[name]
+```
+
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `name` | string | Yes | Pollutant name |
+
+#### Response Format
+```json
+{
+    "success": boolean,
+    "message": string,
+    "pollutant":
+    {
+        "id": integer,
+        "name": string,
     }
 }
 ```
 
-## Measurement Endpoints
+### Update Pollutant
+```http
+GET /?page=PollutantUpdate&id=[id]&name=[name]
+```
 
-### List Measurements
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `id` | integer | Yes | Pollutant ID |
+| `name` | string | Yes | Pollutant name |
+
+#### Response Format
+```json
+{
+    "success": boolean,
+    "message": string,
+    "pollutant":
+    {
+        "id": integer,
+        "name": string,
+    }
+}
+```
+
+### Delete Pollutant
+```http
+GET /?page=PollutantDelete&id=[id]
+```
+
+#### Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `id` | integer | Yes | Pollutant ID |
+
+#### Response Format
+```json
+{
+    "success": boolean,
+    "message": string,
+    "pollutant":
+    {
+        "id": integer,
+        "name": string,
+    }
+}
+```
+
+
+## Measurement Endpoints
 ```http
 GET /?page=MeasurementList
 ```
 
-### Parameters
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `station_id` | integer | No | Filter by station ID |
-| `pollutant_id` | integer | No | Filter by pollutant ID |
-| `id` | integer | No | Get specific measurement |
-
-### List Measurements (JSON)
 ```http
-GET /?page=MeasurementListJSON
+GET /?page=MeasurementList&station_id={id}&pollutant_id={id}
 ```
 
-### Response Format
+```http
+GET /?page=MeasurementList&station_id={id}
+```
+
+```http
+GET /?page=MeasurementList&pollutant_id={id}
+```
+
+```http
+GET /?page=MeasurementList&id={id}
+```
+
+```http
+GET /?page=MeasurementList&fake=true
+```
+
+#### Response Format
 ```json
-{
-    "measurements": [
-        {
-            "id": 2,
-            "station_id": 307,
-            "pollutant_id": 1,
-            "value": "2.3",
-            "unit": "µg/m3",
-            "time": "1716681600000"
-        }
-    ]
-}
+[
+    {
+        "id": integer,
+        "station_id": integer,
+        "pollutant_id": integer,
+        "value": float,
+        "unit": string,
+        "time": string
+    }
+]
 ```

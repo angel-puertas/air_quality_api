@@ -1,23 +1,17 @@
 <?php
-
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
-// Include required classes
 require_once __DIR__ . '/../../system/model/AbstractModel.class.php';
 require_once __DIR__ . '/../../system/model/Station.class.php';
 
-/**
- * @covers Station
- */
 class StationTest extends TestCase
 {
-    private $station;
     private $dbMock;
+    private $station;
 
     protected function setUp(): void
     {
-        parent::setUp();
         $this->dbMock = $this->createMock(mysqli::class);
         $this->station = new Station($this->dbMock);
     }
@@ -62,14 +56,7 @@ class StationTest extends TestCase
         $this->assertIsArray($station);
         $this->assertArrayHasKey('id', $station);
         $this->assertArrayHasKey('name', $station);
+        $this->assertEquals($id, $station['id']);
         $this->assertEquals($name, $station['name']);
-    }
-
-    private function getPropertyValue($object, $propertyName)
-    {
-        $reflectionClass = new \ReflectionClass($object);
-        $reflectionProperty = $reflectionClass->getProperty($propertyName);
-        $reflectionProperty->setAccessible(true);
-        return $reflectionProperty->getValue($object);
     }
 }

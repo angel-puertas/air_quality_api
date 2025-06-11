@@ -10,6 +10,6 @@ class LogoutPage extends AbstractPage
         session_start();
         session_unset();
         session_destroy();
-        $this->data = ['message' => 'You have been logged out.'];
+        $this->data = ['success' => true, 'message' => 'You have been logged out.'];
     }
 }

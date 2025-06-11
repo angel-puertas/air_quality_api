@@ -10,14 +10,16 @@ class ApiPage extends AbstractPage
 
     public function execute() 
     {
-        $station = $_GET['postaja'] ?? null;
-        $pollutant = $_GET['polutant'] ?? null;
-        $type = $_GET['tipPodatka']  ?? null;
-        $from = $_GET['vrijemeOd'] ?? null;
-        $to = $_GET['vrijemeDo'] ?? null;
+        header('Content-Type: application/json');
+
+        $station = $_GET['station'] ?? null;
+        $pollutant = $_GET['pollutant'] ?? null;
+        $type = $_GET['type']  ?? null;
+        $fromDate = $_GET['fromDate'] ?? null;
+        $toDate = $_GET['toDate'] ?? null;
 
         //validinf presense of parameters
-        if ($station === null || $pollutant === null || $type === null || $from === null || $to === null) 
+        if ($station === null || $pollutant === null || $type === null || $fromDate === null || $toDate === null) 
         {
             http_response_code(400);
             echo json_encode(['error' => 'Missing required parameters.']);
@@ -28,38 +30,38 @@ class ApiPage extends AbstractPage
         if (!ctype_digit($station)) 
         {
             http_response_code(400);
-            echo json_encode(['error' => 'Parameter "postaja" must be a number.']);
+            echo json_encode(['error' => 'Parameter "station" must be a number.']);
             exit;
         }
         if (!ctype_digit($pollutant)) 
         {
             http_response_code(400);
-            echo json_encode(['error' => 'Parameter "polutant" must be a number.']);
+            echo json_encode(['error' => 'Parameter "pollutant" must be a number.']);
             exit;
         }
         if (!ctype_digit($type)) 
         {
             http_response_code(400);
-            echo json_encode(['error' => 'Parameter "tipPodatka" must be a number.']);
+            echo json_encode(['error' => 'Parameter "type" must be a number.']);
             exit;
         }
 
         $datePattern = '/^\d{2}\.\d{2}\.\d{4}$/';
-        if (!preg_match($datePattern, $from)) 
+        if (!preg_match($datePattern, $fromDate)) 
         {
             http_response_code(400);
-            echo json_encode(['error' => 'Parameter "vrijemeOd" must be in format dd.mm.yyyy.']);
+            echo json_encode(['error' => 'Parameter "fromDate" must be in format dd.mm.yyyy.']);
             exit;
         }
-        if (!preg_match($datePattern, $to)) 
+        if (!preg_match($datePattern, $toDate)) 
         {
             http_response_code(400);
-            echo json_encode(['error' => 'Parameter "vrijemeDo" must be in format dd.mm.yyyy.']);
+            echo json_encode(['error' => 'Parameter "toDate" must be in format dd.mm.yyyy.']);
             exit;
         }
 
         $apiUrl = "https://iszz.azo.hr/iskzl/rs/podatak/export/json?postaja=$station&polutant=$pollutant&tipPodatka=$type" .
-            "&vrijemeOd=$from&vrijemeDo=$to";
+            "&vrijemeOd=$fromDate&vrijemeDo=$toDate";
 
 
         $ch = curl_init($apiUrl);
@@ -95,11 +97,11 @@ class ApiPage extends AbstractPage
             $time = $item['vrijeme'] ?? '';
             if ($value !== null && $time !== '') 
             {
-                $measurementModel->create((int)$station, (int)$pollutant, $value, $unit, $time);
+                $measurementModel->create($station, $pollutant, $value, $unit, $time);
             }
         }
 
-        $measurements = $measurementModel->getByStationAndPollutant((int)$station, (int)$pollutant);
+        $measurements = $measurementModel->getByStationAndPollutant($station, $pollutant);
         echo json_encode($measurements, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         exit;
     }

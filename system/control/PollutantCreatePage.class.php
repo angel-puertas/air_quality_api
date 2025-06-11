@@ -11,17 +11,20 @@ class PollutantCreatePage extends AbstractPage
         $model = new Pollutant($this->db);
 
         $name = $_GET['name'] ?? null;
-
-        if ($name) 
-        {
-            $id = $model->create($name);
-            $this->data = ['success' => true, 'id' => $id, 'message' => 'Pollutant created!'];
-        } 
-        else 
+        if (!$name)
         {
             $this->data = ['success' => false, 'message' => 'Missing pollutant name'];
+            return;
         }
 
+        $id = $model->create($name);
+        if (!$id)
+        {
+            $this->data = ['success' => false, 'message' => 'Pollutant creation failed'];
+            return;
+        }
+
+        $this->data = ['success' => true, 'message' => 'Pollutant created!', 'pollutant' => ['id' => $id, 'name' => $name]];
     }
 }
 ?>
