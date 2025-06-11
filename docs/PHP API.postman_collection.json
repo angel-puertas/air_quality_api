@@ -1,0 +1,548 @@
+{
+	"info": {
+		"_postman_id": "af550087-0e59-433f-bd9e-587149c4cced",
+		"name": "PHP API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45780808"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"angelApi2\",\r\n    \"password\": \"UpAmuma-2003\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost/air_quality_api/?page=Login",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"air_quality_api",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "Login"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"angelApi2\",\r\n    \"password\": \"UpAmuma-2003\",\r\n    \"confirm_password\": \"UpAmuma-2003\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost/air_quality_api/?page=Register",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"air_quality_api",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "Register"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost/air_quality_api/?page=Logout",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"air_quality_api",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "Logout"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PollutantList",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost/air_quality_api/?page=PollutantList",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"air_quality_api",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "PollutantList"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MeasurementList",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost/air_quality_api/?page=MeasurementList",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"air_quality_api",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "MeasurementList"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PollutantView",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost/air_quality_api/?page=PollutantView&id=6",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"air_quality_api",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "PollutantView"
+						},
+						{
+							"key": "id",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "StationView",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost/air_quality_api/?page=StationView&id=309",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"air_quality_api",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "StationView"
+						},
+						{
+							"key": "id",
+							"value": "309"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "StationList",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost/air_quality_api/?page=StationList",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"air_quality_api",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "StationList"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "StationCreate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"TestStation\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost/air_quality_api/?page=StationCreate",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"air_quality_api",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "StationCreate"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "StationUpdate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"TestStation\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost/air_quality_api/?page=StationCreate",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"air_quality_api",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "StationCreate"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "StationDelete",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"TestStation\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost/air_quality_api/?page=StationDelete&id=309",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"air_quality_api",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "StationDelete"
+						},
+						{
+							"key": "id",
+							"value": "309"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PollutantCreate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"PollutantTest\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost/air_quality_api/?page=PollutantCreate",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"air_quality_api",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "PollutantCreate"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PollutantDelete",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost/air_quality_api/?page=PollutantDelete&id=6",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"air_quality_api",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "PollutantDelete"
+						},
+						{
+							"key": "id",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
