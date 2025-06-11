@@ -1,12 +1,11 @@
 # Tests
 
 ## Unit Tests
-✅ AppCoreTest
-✅ StationTest
+- StationTest
 
 ## Testing Report
-Time: 00:00.777, Memory: 6.00 MB
-OK (1 test, 1 assertion)
+Time: 00:00.228, Memory: 8.00 MB
+OK (1 test, 8 assertions)
 
 ## Running Tests
 
