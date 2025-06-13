@@ -31,4 +31,5 @@ class StationDeletePage extends AbstractPage
         exit;
     }
 }
+//
 ?>
